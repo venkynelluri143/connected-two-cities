@@ -4,7 +4,7 @@
   <groupId>com.walmart.gai</groupId>
   <artifactId>GetAssociateIdentifier</artifactId>
   <packaging>war</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>GetAssociateIdentifier</name>
   <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -136,8 +136,7 @@
 			<optional>true</optional>
 		</dependency>
 		
-	</dependencies>
-	
+	</dependencies>	
 	
 	<build>
         <plugins>
@@ -148,4 +147,26 @@
         </plugins>
         <finalName>GetAssociateIdentifier</finalName>
     </build>
+    
+	<distributionManagement>
+		<repository>
+			<id>internal-repository</id>
+			<url>http://repo.wal-mart.com/content/repositories/walmart/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>internal-repository</id>
+			<url>http://repo.wal-mart.com/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central-spring</id>
+			<name>libs-release</name>
+			<url>http://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
 </project>
