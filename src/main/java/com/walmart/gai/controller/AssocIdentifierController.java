@@ -3,7 +3,9 @@ package com.walmart.gai.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,5 +41,10 @@ public class AssocIdentifierController {
 		LOGGER.info("Input Request :" + assocIdentifierRequest);
 		response = assocIdentifierService.assocIdentifierService(assocIdentifierRequest); 
 		return response;
+	}
+	
+	@RequestMapping(value="/healthCheck", method = RequestMethod.GET, produces="application/json") 
+	public ResponseEntity<String> healthCheck(){
+		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
 }
