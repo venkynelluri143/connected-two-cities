@@ -1,7 +1,7 @@
 package com.walmart.gai.model;
 
 public class Associd {
-
+	
 	private String associdentifierValue;
 	private String associdtype;
 	
