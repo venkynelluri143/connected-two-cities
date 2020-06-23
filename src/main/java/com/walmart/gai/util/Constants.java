@@ -50,7 +50,7 @@ public interface Constants {
 	public static final String memberOf = "memberOf";
 	public static final String processId = "ProcessId";
 	
-	public static final String public_Filter = "associdentifierValue,associdentifierValue";
-	public static final String confed_Filter = "ethnicityCode,ethnicityDesc,genderCode,genderDesc,actualMaritalCode,actualMaritalDesc";
+	public static final String confed_Filter = "associdtype,associdentifierValue";
+	public static final String public_Filter = "associd";
 	
 }

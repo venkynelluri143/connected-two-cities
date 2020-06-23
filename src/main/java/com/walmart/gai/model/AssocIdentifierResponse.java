@@ -1,7 +1,10 @@
 package com.walmart.gai.model;
 
-public class AssocIdentifierResponse {
+import java.io.Serializable;
 
+public class AssocIdentifierResponse implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Associds  associds ; 
 	private String countryCode;
 	

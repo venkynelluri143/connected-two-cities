@@ -1,6 +1,7 @@
 package com.walmart.gai.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +24,8 @@ import com.walmart.gai.globalFilter.DemoIdFilter;
 import com.walmart.gai.globalFilter.GlobalFilter;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.model.AssocIdentifierResponse;
+import com.walmart.gai.model.Associd;
+import com.walmart.gai.model.Associds;
 import com.walmart.gai.security.ADUserDetailsContextMapper;
 import com.walmart.gai.service.AssocIdentifierService;
 import com.walmart.gai.util.Constants;
@@ -61,7 +64,8 @@ public class AssocIdentifierController {
 			throw new BindException(errors);
 		}
 		LOGGER.info("Input Request :" + assocIdentifierRequest);
-		response = assocIdentifierService.assocIdentifierService(assocIdentifierRequest); 
+		response = assocIdentifierService.assocIdentifierService(assocIdentifierRequest, groupLevel); 		
+		
 		return response;
 	}
 	

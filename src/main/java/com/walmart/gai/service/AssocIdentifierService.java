@@ -31,7 +31,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 	@Autowired
 	WinAssociateRepositoryInternational winAssociateRepositoryInternational;
 	
-	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest){
+	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
 		Boolean isGlobal = true;
 		AssocIdentifierResponse response = new AssocIdentifierResponse(); 
 		LOGGER.info("Given request :" +assocIdentifierRequest);
@@ -54,7 +54,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		
 		LOGGER.info("Win Associate :" +winAssociate);
 		if (winAssociate != null) {
-			response = assocIdentifierResponse(winAssociate, countryCode);
+			response = assocIdentifierResponse(winAssociate, countryCode, groupLevel);
 		}else {
 			LOGGER.info("No Data Found for given ID :"+id+" and ID type :"+idType);
 			throw new DataNotFoundException(ErrorCodeEnum.GAI_NOT_FOUND.getCode(),ErrorCodeEnum.GAI_NOT_FOUND.getDescription()+id+" ,"+idType+" ,"+countryCode);
@@ -64,20 +64,26 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		return response; 
 	}
 	
-	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode){
+	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode, String groupLevel){
+		List<String> confedLevels = new ArrayList<>();
+		confedLevels.add(Constants.confed3);
+		confedLevels.add(Constants.confed2);
+		confedLevels.add(Constants.confed1);
+		
 		AssocIdentifierResponse response = new AssocIdentifierResponse(); 
 		Associds assocIds = new Associds();
 		List<Associd> associdList = new ArrayList<>(); 
 		Associd assocWin = new Associd();
 		assocWin.setAssocidentifierValue(winAssociate.getWalmartIdentificationNumber()!=null ? winAssociate.getWalmartIdentificationNumber().trim() : "");
 		assocWin.setAssocidtype(Constants.walmartIdentificationNum);
-		
-		Associd assocSsn = new Associd(); 
-		assocSsn.setAssocidentifierValue(winAssociate.getNationalId() != null ? winAssociate.getNationalId().trim() : "");
-		assocSsn.setAssocidtype(Constants.nationalID);
-		
 		associdList.add(assocWin);
-		associdList.add(assocSsn);
+		
+		if(!confedLevels.contains(groupLevel)){
+			Associd assocSsn = new Associd(); 
+			assocSsn.setAssocidentifierValue(winAssociate.getNationalId() != null ? winAssociate.getNationalId().trim() : "");
+			assocSsn.setAssocidtype(Constants.nationalID);
+			associdList.add(assocSsn);
+		}
 		
 		assocIds.setAssocid(associdList);
 		response.setAssocids(assocIds);

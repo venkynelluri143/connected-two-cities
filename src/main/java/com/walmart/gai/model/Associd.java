@@ -1,6 +1,13 @@
 package com.walmart.gai.model;
 
-public class Associd {
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class Associd implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private String associdentifierValue;
 	private String associdtype;

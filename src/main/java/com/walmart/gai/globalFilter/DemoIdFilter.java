@@ -13,14 +13,13 @@ import com.jfilter.filter.FilterFields;
 import com.jfilter.request.RequestSession;
 import com.walmart.gai.enumerations.ErrorCodeEnum;
 import com.walmart.gai.exceptions.BadRequestException;
-import com.walmart.gai.model.Associd;
+import com.walmart.gai.model.Associds;
 import com.walmart.gai.util.Constants;
 
 @DynamicFilterComponent
 public class DemoIdFilter implements DynamicFilterEvent {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DemoIdFilter.class);
-	FilterFields fields = new FilterFields();
 	
 	@Override
     public FilterFields onGetFilterFields(MethodParameter methodParameter, RequestSession request) {
@@ -29,23 +28,20 @@ public class DemoIdFilter implements DynamicFilterEvent {
 		if (request.getSession().getAttribute(Constants.groupLevel).equals(Constants.private1)
 				|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.private2)
 				|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.private3)) {
-			//Do nothing
-			fields.appendToMap(Associd.class, Arrays.asList(Constants.public_Filter.split(",")));
-			//fields.appendToMap(AssociateContactResponse.class, Arrays.asList(Constants.confed1_Filter.split(",")));
+			FilterFields fields = new FilterFields();
             return fields;
             
         }else if (request.getSession().getAttribute(Constants.groupLevel).equals(Constants.confed3)
         		|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.confed2)
         		|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.confed1)) {
-        	fields.appendToMap(Associd.class, Arrays.asList(Constants.public_Filter.split(",")));
-        	
+        	FilterFields fields = new FilterFields();
         	return fields;
+        	
         } else if (request.getSession().getAttribute(Constants.groupLevel).equals(Constants.public1)
 				|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.public2)
 				|| request.getSession().getAttribute(Constants.groupLevel).equals(Constants.public3)) {
-			
-			fields.appendToMap(Associd.class, Arrays.asList(Constants.public_Filter.split(",")));
-        	
+        	FilterFields fields = new FilterFields();
+        	fields.appendToMap(Associds.class, Arrays.asList(Constants.public_Filter.split(",")));
         	return fields; 
         }
 		else {
