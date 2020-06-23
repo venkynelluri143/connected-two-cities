@@ -12,7 +12,10 @@ public enum ErrorCodeEnum {
 	GAI_ASSOC_IDTYPE("CHGAI004", "Associate ID Type cannot be Empty"),
 	GAI_ASSOC_ID_INVALID("CHGAI005", "Asscoiate ID Type needs to be WIN/SSN"),
 	GAI_ASSOC_ID_INVALID_LENGTH("CHGAI005", "Associate ID (WIN) needs to be 9 characters to process the request"),
-	GAI_NOT_FOUND("CHGAI006","No Data Found for given associate Id , Id Type and Country Code :");
+	GAI_NOT_FOUND("CHGAI006","No Data Found for given associate Id , Id Type and Country Code :"),
+	GGA_PROCESSID_EXCEP("CHGAI007","No valid LDAP AD groups associated with the given Process Id"), 
+	GGA_PROCESSID_INVALID("CHGAI008","Invalid LDAP AD groups associated with the given Process Id"),
+	GGA_PROCESSID_NOMEMBERS("CHGAI009","No Member Groups associated with the given Process Id");
 
 	private String code;
     private String description;

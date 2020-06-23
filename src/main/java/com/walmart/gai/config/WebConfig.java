@@ -1,10 +1,19 @@
 package com.walmart.gai.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jfilter.EnableJsonFilter;
 import com.walmart.gai.dao.mapper.ResourceMapper;
+import com.walmart.gai.security.ADUserDetailsContextMapper;
+import com.walmart.gai.security.SecurityFilter;
 import com.walmart.gai.validator.AssociateIdentifierValidator;
 
 import ma.glasnost.orika.MapperFacade;
@@ -13,6 +22,8 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan({"com.jfilter.components"})
+@EnableJsonFilter
 public class WebConfig {
 	
 	/*@Value("${spring.datasource.url}")
@@ -48,6 +59,16 @@ public class WebConfig {
 		return dataSource;
 	}
 */	
+	
+	@Value("${ad.provider.url}")
+	private String adProviderURL;
+	
+	@Value("${ad.search.base}")
+	private String searchBase;
+	
+	@Value("${ad.domain}")
+	private String adDomain;
+	
 	@Bean
     MapperFacade mapperFacade() {
 	MapperFactory factory = new DefaultMapperFactory.Builder().build();
@@ -62,6 +83,36 @@ public class WebConfig {
     @Bean
     AssociateIdentifierValidator getAssociateIdentifierValidator(){
 	return new AssociateIdentifierValidator();
+    }
+    
+    @Bean
+    public AuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
+        ActiveDirectoryLdapAuthenticationProvider provider = new ActiveDirectoryLdapAuthenticationProvider(adDomain, adProviderURL, searchBase);
+        provider.setConvertSubErrorCodesToExceptions(true);
+        provider.setUseAuthenticationRequestCredentials(true);
+        provider.setUserDetailsContextMapper(new ADUserDetailsContextMapper());
+        return provider;
+    }
+    
+	@Bean
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+	    ObjectMapper mapper = new ObjectMapper();
+	    //MyObjectMapper mapper = new MyObjectMapper();
+	    //mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+	    MappingJackson2HttpMessageConverter converter = 
+	        new MappingJackson2HttpMessageConverter(mapper);
+	    //converter.setObjectMapper(mapper);
+	    return converter;
+	}
+    
+    @Bean
+	public ADUserDetailsContextMapper aDUserDetailsContextMapper() {
+		return new ADUserDetailsContextMapper();
+	}
+    
+    @Bean 
+    public SecurityFilter securityFilter(){
+    	return new SecurityFilter();
     }
 	
 }

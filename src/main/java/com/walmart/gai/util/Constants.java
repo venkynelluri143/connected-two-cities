@@ -32,4 +32,25 @@ public interface Constants {
 	public static final String historyTermCode_108 = "108";
 	public static final String historyTermCode_108_Desc = "Settlement issues";
 	
+	public static final String searchPattern = "CN=WFM-";
+	public static final String private1 = "PRIVATE-1";
+	public static final String private2 = "PRIVATE-2";
+	public static final String private3 = "PRIVATE-3";
+	public static final String confed1 = "CONFED-1";
+	public static final String confed2 = "CONFED-2";
+	public static final String confed3 = "CONFED-3";
+	public static final String public1 = "PUBLIC-1";
+	public static final String public2 = "PUBLIC-2";
+	public static final String public3 = "PUBLIC-3";
+	
+	public static final String Authorization = "Authorization";
+	public static final String ContentType = "application/json";
+	public static final String AuthenticationMessage = "Full Authentication is required to access this resource";
+	public static final String groupLevel = "GroupLevel";
+	public static final String memberOf = "memberOf";
+	public static final String processId = "ProcessId";
+	
+	public static final String public_Filter = "associdentifierValue,associdentifierValue";
+	public static final String confed_Filter = "ethnicityCode,ethnicityDesc,genderCode,genderDesc,actualMaritalCode,actualMaritalDesc";
+	
 }
