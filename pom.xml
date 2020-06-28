@@ -4,7 +4,7 @@
   <groupId>com.walmart.gai</groupId>
   <artifactId>GetAssociateIdentifier</artifactId>
   <packaging>war</packaging>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.0.8-SNAPSHOT</version>
   <name>GetAssociateIdentifier</name>
   <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -16,11 +16,6 @@
 	</properties>
 
 	<dependencies>
-	
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,6 +49,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>	
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
 	
 		<dependency>
 			<groupId>ibm.db2</groupId>
@@ -81,33 +81,11 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-
-		
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ibm.cics.server</groupId>
-			<artifactId>com.ibm.cics.server</artifactId>
-			<version>1.500</version>
 		</dependency>
 
 		<dependency>
@@ -128,30 +106,11 @@
 			<version>2.9.2</version>
 		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/org.javers/javers-core -->
-	<dependency>
-		<groupId>org.javers</groupId>
-		<artifactId>javers-core</artifactId>
-		<version>5.8.9</version>
-	</dependency>
-	
-			<!-- https://mvnrepository.com/artifact/ma.glasnost.orika/orika-core -->
+		<!-- https://mvnrepository.com/artifact/org.javers/javers-core -->
 		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<groupId>org.javers</groupId>
+			<artifactId>javers-core</artifactId>
+			<version>5.8.9</version>
 		</dependency>
 		
 		<dependency>
@@ -163,13 +122,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
-		<dependency>
-    		<groupId>com.github.rkonovalov</groupId>
-    		<artifactId>json-ignore</artifactId>
-    		<version>1.0.8</version>
-		</dependency>
-		
 	</dependencies>	
 	
 	<build>

@@ -78,9 +78,9 @@ public class AssociateIdentifierControllerTest{
     		AssocIdentifierRequest request = new AssocIdentifierRequest();
     		AssocIdentifier assocIdentifier = new AssocIdentifier();
     		assocIdentifier.setAssociateId("");
-    		assocIdentifier.setIdType(Constants.walmartIdentificationNum);
+    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
     		request.setAssocIdentifier(assocIdentifier);
-    		request.setCountryCode(Constants.countryCode_US);
+    		request.setCountryCode(Constants.COUNTRYCODE_US);
     		
     		URI url = new URI("/GetAssocIdentifier/assocIdentifier/associate");
     		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac) .build();

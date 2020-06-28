@@ -2,7 +2,6 @@ package com.walmart.gai.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,20 +9,12 @@ import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAu
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jfilter.EnableJsonFilter;
-import com.walmart.gai.dao.mapper.ResourceMapper;
 import com.walmart.gai.security.ADUserDetailsContextMapper;
 import com.walmart.gai.security.SecurityFilter;
 import com.walmart.gai.validator.AssociateIdentifierValidator;
 
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.jfilter.components"})
-@EnableJsonFilter
 public class WebConfig {
 	
 	/*@Value("${spring.datasource.url}")
@@ -68,17 +59,6 @@ public class WebConfig {
 	
 	@Value("${ad.domain}")
 	private String adDomain;
-	
-	@Bean
-    MapperFacade mapperFacade() {
-	MapperFactory factory = new DefaultMapperFactory.Builder().build();
-	return factory.getMapperFacade();
-    }
-
-    @Bean
-    public ResourceMapper resourceMapper() {
-	return new ResourceMapper();
-    } 
     
     @Bean
     AssociateIdentifierValidator getAssociateIdentifierValidator(){
@@ -103,11 +83,6 @@ public class WebConfig {
 	        new MappingJackson2HttpMessageConverter(mapper);
 	    //converter.setObjectMapper(mapper);
 	    return converter;
-	}
-    
-    @Bean
-	public ADUserDetailsContextMapper aDUserDetailsContextMapper() {
-		return new ADUserDetailsContextMapper();
 	}
     
     @Bean 

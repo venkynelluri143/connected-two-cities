@@ -40,11 +40,11 @@ public class AssociateIdentifierValidator implements Validator {
 				errors.rejectValue("assocIdentifier", ErrorCodeEnum.GAI_ASSOC_ID.getCode(),ErrorCodeEnum.GAI_ASSOC_ID.getDescription());
 			}
 			
-			if((!request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.walmartIdentificationNum)) && (!request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.nationalID))){
+			if((!request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.WALMART_IDENTIFICATION_NUM)) && (!request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.NATIONALID))){
 				errors.rejectValue("assocIdentifier", ErrorCodeEnum.GAI_ASSOC_ID_INVALID.getCode(),ErrorCodeEnum.GAI_ASSOC_ID_INVALID.getDescription());
 			}
 			
-			if(request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.walmartIdentificationNum) && (request.getAssocIdentifier().getAssociateId().length() != 9)){
+			if(request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.WALMART_IDENTIFICATION_NUM) && (request.getAssocIdentifier().getAssociateId().length() != 9)){
 				errors.rejectValue("assocIdentifier", ErrorCodeEnum.GAI_ASSOC_ID_INVALID_LENGTH.getCode(),ErrorCodeEnum.GAI_ASSOC_ID_INVALID_LENGTH.getDescription());
 			}
 			

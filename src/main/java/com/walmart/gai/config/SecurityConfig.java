@@ -20,24 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	LdapAuthenticationProvider ldapAuthenticationProvider;
-
-	@Autowired
-	SecurityFilter securityFilter;
-	
-	/*@Override
-    public void configure(HttpSecurity http) throws Exception {
-		   http
-		   .antMatcher("/**")
-		   //.requestMatcher(new RequestHeaderRequestMatcher("Authorization")).oauth2Login().tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient)
-           .authorizeRequests().anyRequest().fullyAuthenticated();
-		
-		
-        http.antMatcher("/**").authorizeRequests()
-            .antMatchers("/", "/login**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .oauth2Login();
-    }*/
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,8 +40,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
     	auth.authenticationProvider(ldapAuthenticationProvider);
     } 
-	
-	/*private AuthorizationRequestRepository<OAuth2AuthorizationRequest> cookieAuthorizationRequestRepository() {
-		return new HttpCookieOAuth2AuthorizationRequestRepository();
-	}*/
+
 }

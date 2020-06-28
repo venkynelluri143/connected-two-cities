@@ -31,7 +31,7 @@ public class SecurityFilter extends GenericFilterBean{
 			throws IOException, ServletException {
 			
 			HttpServletRequest req = (HttpServletRequest) request;
-			String authorization = req.getHeader(Constants.Authorization);
+			String authorization = req.getHeader(Constants.AUTHORIZATION);
 			LOGGER.info("Authorization in the request  :" +authorization);
 			if(authorization != null 
 					|| req.getRequestURI().contains("/health") 
@@ -39,8 +39,8 @@ public class SecurityFilter extends GenericFilterBean{
 				chain.doFilter(request, response);
 			}else {
 				((HttpServletResponse) response).setStatus(HttpStatus.UNAUTHORIZED.value());
-				((HttpServletResponse) response).setContentType(Constants.ContentType);
-				ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.UNAUTHORIZED,String.valueOf(HttpStatus.UNAUTHORIZED.value()),Constants.AuthenticationMessage, req.getRequestURI());
+				((HttpServletResponse) response).setContentType(Constants.CONTENTTYPE);
+				ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.UNAUTHORIZED,String.valueOf(HttpStatus.UNAUTHORIZED.value()),Constants.AUTHENTICATIONMESSAGE, req.getRequestURI());
 		        PrintWriter out = response.getWriter();
 		        out.print(objectMapper.writeValueAsString(errorResponse));
 		        out.flush();

@@ -18,7 +18,7 @@ envs:
 flows:
   default(ui startCICD):
     - call: build
-    #- call: runSonar
+    - call: runSonar
     - call: runUploadToRepo
     # - call: runDeployment
     - call: triggerDeploymentValidation

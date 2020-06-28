@@ -39,13 +39,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		String idType = assocIdentifierRequest.getAssocIdentifier().getIdType().trim(); //SSN , WIN 
 		String countryCode = assocIdentifierRequest.getCountryCode();
 		
-		if (countryCode.equalsIgnoreCase(Constants.countryCode_US)
-				|| countryCode.equalsIgnoreCase(Constants.countryCode_CA)) {
+		if (countryCode.equalsIgnoreCase(Constants.COUNTRYCODE_US)
+				|| countryCode.equalsIgnoreCase(Constants.COUNTRYCODE_CA)) {
 			isGlobal = false;
 		}
 		
-		WinAssociate winAssociate = new WinAssociate();
-		
+		WinAssociate winAssociate = null;
 		if(isGlobal){
 			winAssociate = getAssocIdentifierInternational(id, idType, countryCode);
 		}else {
@@ -66,22 +65,30 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 	
 	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode, String groupLevel){
 		List<String> confedLevels = new ArrayList<>();
-		confedLevels.add(Constants.confed3);
-		confedLevels.add(Constants.confed2);
-		confedLevels.add(Constants.confed1);
+		confedLevels.add(Constants.CONFED3);
+		confedLevels.add(Constants.CONFED2);
+		confedLevels.add(Constants.CONFED1);
+		
+		List<String> publicLevels = new ArrayList<>();
+		publicLevels.add(Constants.PUBLIC1);
+		publicLevels.add(Constants.PUBLIC2);
+		publicLevels.add(Constants.PUBLIC3);
 		
 		AssocIdentifierResponse response = new AssocIdentifierResponse(); 
 		Associds assocIds = new Associds();
 		List<Associd> associdList = new ArrayList<>(); 
-		Associd assocWin = new Associd();
-		assocWin.setAssocidentifierValue(winAssociate.getWalmartIdentificationNumber()!=null ? winAssociate.getWalmartIdentificationNumber().trim() : "");
-		assocWin.setAssocidtype(Constants.walmartIdentificationNum);
-		associdList.add(assocWin);
 		
-		if(!confedLevels.contains(groupLevel)){
+		if(!publicLevels.contains(groupLevel)){
+			Associd assocWin = new Associd();
+			assocWin.setAssocidentifierValue(winAssociate.getWalmartIdentificationNumber()!=null ? winAssociate.getWalmartIdentificationNumber().trim() : "");
+			assocWin.setAssocidtype(Constants.WALMART_IDENTIFICATION_NUM);
+			associdList.add(assocWin);
+		}
+		
+		if(!confedLevels.contains(groupLevel) && !publicLevels.contains(groupLevel)){
 			Associd assocSsn = new Associd(); 
 			assocSsn.setAssocidentifierValue(winAssociate.getNationalId() != null ? winAssociate.getNationalId().trim() : "");
-			assocSsn.setAssocidtype(Constants.nationalID);
+			assocSsn.setAssocidtype(Constants.NATIONALID);
 			associdList.add(assocSsn);
 		}
 		
@@ -93,21 +100,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 	
 	public WinAssociate getAssocIdentifierLocal(String id, String idType, String countryCode){
 		WinAssociate winAssociate = new WinAssociate();
-		if (idType.equals(Constants.walmartIdentificationNum))
+		if (idType.equals(Constants.WALMART_IDENTIFICATION_NUM))
 			winAssociate = winAssociateRepository.findByWalmartIdentificationNumberAndStrCountryCode(id,
 					countryCode);
-		else if (idType.equals(Constants.nationalID))
+		else if (idType.equals(Constants.NATIONALID)) {
+			LOGGER.info("National Id Search :");
 			winAssociate = winAssociateRepository.findByNationalIdAndStrCountryCode(id, countryCode);
-		
+		}
 		return winAssociate;
 	}
 	
 	public WinAssociate getAssocIdentifierInternational(String id, String idType, String countryCode){
 		WinAssociate winAssociate = new WinAssociate();
-		if (idType.equals(Constants.walmartIdentificationNum))
+		if (idType.equals(Constants.WALMART_IDENTIFICATION_NUM))
 			winAssociate = winAssociateRepositoryInternational.findByWalmartIdentificationNumberAndStrCountryCode(id,
 					countryCode);
-		else if (idType.equals(Constants.nationalID))
+		else if (idType.equals(Constants.NATIONALID))
 			winAssociate = winAssociateRepositoryInternational.findByNationalIdAndStrCountryCode(id, countryCode);
 		return winAssociate; 
 	}

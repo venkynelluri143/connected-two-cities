@@ -7,13 +7,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.Person.Essence;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
@@ -32,7 +35,6 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(ADUserDetailsContextMapper.class);
-	public  static List<String> memberGroups = new ArrayList<>();
 
 	@Override
 	public UserDetails mapUserFromContext(DirContextOperations ctx, String username,
@@ -40,10 +42,11 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 		List<GrantedAuthority> mappedAuthorities = new ArrayList<GrantedAuthority>();
 		Essence essence= new Essence(ctx);
 		essence.setUsername(username);
-		String[] members = ctx.getStringAttributes(Constants.memberOf);	
-		memberGroups = Arrays.asList(members);
-		LOGGER.info("Process Id MemberGroups :"+memberGroups);
+		String[] members = ctx.getStringAttributes(Constants.MEMBEROF);
+		mappedAuthorities = buildUserAuthority(members);
+		essence.setAuthorities(mappedAuthorities);
 		UserDetails userDetails=essence.createUserDetails();
+		LOGGER.info("Get Authorities:" +userDetails.getAuthorities());
 		return userDetails;
 	}
 
@@ -53,8 +56,14 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 		
 	}
 	
-	public List<String> getMemberGroups(){
-		return memberGroups;
+	private List<GrantedAuthority> buildUserAuthority(String[] members) {
+	    Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+	    // Build user's authorities
+	    if(members != null){
+	    	Arrays.stream(members) 
+	        .forEach(e->setAuths.add(new SimpleGrantedAuthority(e))); 
+	    }
+	    return new ArrayList<GrantedAuthority>(setAuths);
 	}
 
 }
