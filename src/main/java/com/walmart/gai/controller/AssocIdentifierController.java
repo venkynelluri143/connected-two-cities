@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.walmart.gai.exceptions.ServiceException;
 import com.walmart.gai.globalFilter.GlobalFilter;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.model.AssocIdentifierResponse;
@@ -43,14 +42,13 @@ public class AssocIdentifierController {
 	GlobalFilter globalFilter;
 	
 	@RequestMapping(value = "/associate", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
-	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors, HttpServletRequest request) throws ServiceException, BindException {
+	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors) throws BindException {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		AssocIdentifierResponse response = new AssocIdentifierResponse();
 		String groupLevel = globalFilter.getMemberGroup(authentication, assocIdentifierRequest.getCountryCode());
 		LOGGER.info("Group Level :"+groupLevel);
-		request.getSession().setAttribute(Constants.GROUPLEVEL, groupLevel);
 		
 		// validate Input request - AssocIdentifierRequest 
 		getAssociateIdentifierValidator.validate(assocIdentifierRequest, errors);

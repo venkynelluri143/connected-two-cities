@@ -16,7 +16,6 @@ public class ErrorResponseDTO implements Serializable {
 	public String code;
 	public String message;
 	public String object;
-	public List result =  new ArrayList<>();
 
 	public ErrorResponseDTO(HttpStatus httpStatus, String code, String message,
 			String object) {
@@ -28,16 +27,6 @@ public class ErrorResponseDTO implements Serializable {
 
 	}
 	
-	public ErrorResponseDTO(HttpStatus httpStatus, String code, String message,
-			String object, List result) {
-		this.httpStatus = httpStatus;
-		this.code = code;
-		this.message = message;
-		this.object = object;
-		this.time = new Date();
-		this.result = result;
-	}
-
 	public HttpStatus getHttpStatus() {
 		return this.httpStatus;
 	}
@@ -77,13 +66,4 @@ public class ErrorResponseDTO implements Serializable {
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
 	}
-
-	public List getResult() {
-		return result;
-	}
-
-	public void setResult(List result) {
-		this.result = result;
-	}
-
 }

@@ -58,7 +58,7 @@ public class GlobalFilter {
 			throw new BadRequestException(new FieldError(Constants.PROCESSID,ErrorCodeEnum.GGA_PROCESSID_NOMEMBERS.getCode(),ErrorCodeEnum.GGA_PROCESSID_NOMEMBERS.getDescription()));
 		}
 		
-		if(groupList != null & !groupList.isEmpty()){
+		if(groupList != null && !groupList.isEmpty()){
 			groupList.sort(Comparator.comparingInt(levels::indexOf));
 			LOGGER.info("Group List after sorted levels :"+groupList);
 			return groupList.get(0);

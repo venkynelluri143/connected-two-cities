@@ -1,6 +1,6 @@
 package com.walmart.gai.util;
 
-public interface Constants {
+public class Constants {
 	public static final String YES = "YES";
 	public static final int MAXTRIES = 3;
 	public static final String OPERATIONCHANNEL = "DFHWS-OPERATION";
@@ -31,6 +31,7 @@ public interface Constants {
 	public static final String REHIREELIGIBLE_NO = "N";
 	public static final String HISTORYTERMCODE_108 = "108";
 	public static final String HISTORYTERMCODE_108_DESC = "Settlement issues";
+	public static final String ASSOCIDENTIFIER = "associateIdentifier";
 	
 	public static final String SEARCHPATTERN = "CN=WFM-";
 	public static final String PRIVATE1 = "PRIVATE-1";
