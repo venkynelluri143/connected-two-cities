@@ -31,7 +31,6 @@ public class AssociateIdentifierValidator implements Validator {
 		if(request.getAssocIdentifier() == null){
 			errors.rejectValue("countryCode", ErrorCodeEnum.GAI_ASSOC_IDENTIFIER.getCode(),ErrorCodeEnum.GAI_ASSOC_IDENTIFIER.getDescription());
 		} else {
-
 			if (request.getAssocIdentifier().getAssociateId() == null
 					|| request.getAssocIdentifier().getAssociateId().isEmpty()) {
 				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_ID.getCode(),
@@ -39,8 +38,8 @@ public class AssociateIdentifierValidator implements Validator {
 			}
 			if (request.getAssocIdentifier().getIdType() == null
 					|| request.getAssocIdentifier().getIdType().isEmpty()) {
-				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_ID.getCode(),
-						ErrorCodeEnum.GAI_ASSOC_ID.getDescription());
+				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_IDTYPE.getCode(),
+						ErrorCodeEnum.GAI_ASSOC_IDTYPE.getDescription());
 			}
 
 			if ((!request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.WALMART_IDENTIFICATION_NUM))

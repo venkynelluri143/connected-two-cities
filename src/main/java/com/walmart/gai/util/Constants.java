@@ -31,7 +31,7 @@ public class Constants {
 	public static final String REHIREELIGIBLE_NO = "N";
 	public static final String HISTORYTERMCODE_108 = "108";
 	public static final String HISTORYTERMCODE_108_DESC = "Settlement issues";
-	public static final String ASSOCIDENTIFIER = "associateIdentifier";
+	public static final String ASSOCIDENTIFIER = "assocIdentifier";
 	
 	public static final String SEARCHPATTERN = "CN=WFM-";
 	public static final String PRIVATE1 = "PRIVATE-1";
