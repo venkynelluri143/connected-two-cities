@@ -23,9 +23,9 @@ import com.walmart.gai.util.Constants;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class AssociateIdentifierServiceTests {
+public class AssociateIdentifierServiceTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AssociateIdentifierServiceTests.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AssociateIdentifierServiceTest.class);
 	private String GROUPLEVEL = Constants.PRIVATE1;
 	private String COUNTRYCODE = "MX"; 
 	private String WINNBR = "224222714";
