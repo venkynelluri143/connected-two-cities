@@ -4,7 +4,7 @@
   <groupId>com.walmart.gai</groupId>
   <artifactId>GetAssociateIdentifier</artifactId>
   <packaging>war</packaging>
-  <version>1.0.8-SNAPSHOT</version>
+  <version>1.0.9-SNAPSHOT</version>
   <name>GetAssociateIdentifier</name>
   <parent>
 		<groupId>org.springframework.boot</groupId>

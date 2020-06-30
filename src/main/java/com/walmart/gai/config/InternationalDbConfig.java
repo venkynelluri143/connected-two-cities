@@ -5,7 +5,6 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +59,7 @@ public class InternationalDbConfig {
 				.build();
 	}	*/
 	
-	@Bean
+	@Bean(name = "secondaryDataSource")
 	public DataSource secondaryDataSource(){
 		return DataSourceBuilder.create()
 				.url("jdbc:db2://DSNVDRDA.wal-mart.com:49422/DSNV") //- ECGBUASC 
@@ -70,23 +69,25 @@ public class InternationalDbConfig {
 				.build();
 	}	
 	
-	/*@Bean(name = "gaiInternationalTwoTransactionManager")
+	@Bean(name = "gaiInternationalTwoTransactionManager")
 	public JpaTransactionManager transactionManager(@Qualifier("gaiInternationalEntityManager") EntityManagerFactory gaiInternationalEntityManager){
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(gaiInternationalEntityManager);		
+		transactionManager.setEntityManagerFactory(gaiInternationalEntityManager);	
+		transactionManager.setDataSource(secondaryDataSource());
+		transactionManager.setPersistenceUnitName("gaiInternational");
 		return transactionManager;
-	}*/
+	}
 	
 	@Bean(name="tm2")
-    @Autowired
-    DataSourceTransactionManager tm2(DataSource datasource) {
+    //@Autowired
+    DataSourceTransactionManager tm2(@Qualifier("secondaryDataSource") DataSource datasource) {
         DataSourceTransactionManager txm  = new DataSourceTransactionManager(secondaryDataSource());
         return txm;
     }
 	
-	@Bean(name = "gaiInternationalTwoTransactionManager")
+	/*@Bean(name = "gaiInternationalTwoTransactionManager")
 	public PlatformTransactionManager platformTransactionManager(@Qualifier("gaiInternationalEntityManager") EntityManagerFactory gaiInternationalEntityManager) {
 		return new JpaTransactionManager(gaiInternationalEntityManager);
-	  }
+	  }*/
 	
 }

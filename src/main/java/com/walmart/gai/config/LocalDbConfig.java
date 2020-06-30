@@ -41,7 +41,7 @@ public class LocalDbConfig {
 	@Value("${spring.datasource.password}")
 	private String password;*/
 	
-	@Primary
+	//@Primary
 	@Bean(name = "gaiLocalEntityManager")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -64,8 +64,8 @@ public class LocalDbConfig {
 		return properties;
 	}
 	
-	@Primary
-	@Bean
+	//@Primary
+	@Bean(name = "primaryDataSource")
 	public DataSource dataSource(){
 		return DataSourceBuilder.create()
 				.url("jdbc:db2://DSNSDRDA.wal-mart.com:49543/DSNS") //- ECGBUASC 
@@ -75,25 +75,27 @@ public class LocalDbConfig {
 				.build();
 	}	
 	
-	/*@Primary
+	@Primary
 	@Bean(name = "gaiLocalTransactionManager")
 	public JpaTransactionManager transactionManager(@Qualifier("gaiLocalEntityManager")  EntityManagerFactory gaiLocalEntityManager){
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(gaiLocalEntityManager);		
+		transactionManager.setDataSource(dataSource());
+		transactionManager.setPersistenceUnitName("gaiLocal");
 		return transactionManager;
-	}*/
+	}
 	
 	@Bean(name="tm1")
     @Autowired
-    @Primary
-    DataSourceTransactionManager tm1(DataSource datasource) {
+    //@Primary
+    DataSourceTransactionManager tm1(@Qualifier("primaryDataSource") DataSource datasource) {
         DataSourceTransactionManager txm  = new DataSourceTransactionManager(dataSource());
         return txm;
     }
 	
-	@Primary
-	@Bean(name = "gaiLocalTransactionManager")
+	//@Primary
+	/*@Bean(name = "gaiLocalTransactionManager")
 	public PlatformTransactionManager platformTransactionManager(@Qualifier("gaiLocalEntityManager") EntityManagerFactory gaiLocalEntityManager) {
 		return new JpaTransactionManager(gaiLocalEntityManager);
-	  }
+	  }*/
 }
