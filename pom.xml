@@ -143,7 +143,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
             </plugin>
+            
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
             
             <!-- START Sonar configuration -->
 			 <plugin> 
@@ -247,6 +259,16 @@
 		    </executions> 
 			</plugin>
             <!-- END Sonar configuration -->
+            
+           <plugin>
+          		<groupId>org.apache.maven.plugins</groupId>
+          		<artifactId>maven-release-plugin</artifactId>
+          		<version>2.5.3</version>
+          		<configuration>
+            		<localCheckout>true</localCheckout>
+            		<autoVersionSubmodules>true</autoVersionSubmodules>
+          		</configuration>
+        </plugin>
             
         </plugins>
         <finalName>GetAssociateIdentifier</finalName>
