@@ -52,7 +52,7 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 
 	@Override
 	public void mapUserToContext(UserDetails user, DirContextAdapter ctx) {
-		// TODO Auto-generated method stub
+		// Do nothing - default implementation can ignored 
 		
 	}
 	
