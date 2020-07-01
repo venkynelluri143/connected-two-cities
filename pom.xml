@@ -12,7 +12,10 @@
 		<version>2.0.5.RELEASE</version>
 	</parent>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -139,6 +142,7 @@
 	</dependencies>	
 	
 	<build>
+	    <finalName>GetAssociateIdentifier</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -155,21 +159,46 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-idea-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<deploymentDescriptorFile>src/webapp/WEB-INF/web.xml</deploymentDescriptorFile>
+				</configuration>
 			</plugin>
             
-            <!-- START Sonar configuration -->
-			 <plugin> 
-			 	<groupId>org.apache.maven.plugins</groupId> 
-			 	<artifactId>maven-surefire-plugin</artifactId> 
-				<version>2.9</version> 
-				<configuration> 
-				<testFailureIgnore>false</testFailureIgnore> 
-				<systemPropertyVariables> 
-					<net.sourceforge.cobertura.datafile>target/cobertura/cobertura.ser</net.sourceforge.cobertura.datafile> 
-				</systemPropertyVariables> 
-				 <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true</argLine> 
-				</configuration> 
-			</plugin> 
+           <!-- START Sonar configuration -->
+			<plugin>
+			<groupId>org.jacoco</groupId>
+			  <artifactId>jacoco-maven-plugin</artifactId>
+			  <version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0</version>
@@ -246,32 +275,22 @@
 						<format>xml</format>
 					</formats>
 				</configuration>
-				<executions>
-		        <execution>
-		            <id>cobertura-check</id>
-		            <phase>verify</phase>
-		            <goals>
-		            	<goal>clean</goal>
-						<goal>check</goal>
-		                <goal>cobertura</goal>
-		            </goals>
-		        </execution>
-		    </executions> 
+				
+		    <dependencies>
+                <dependency>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                    <version>5.0.3</version>
+                </dependency>
+            </dependencies>
 			</plugin>
-            <!-- END Sonar configuration -->
-            
-           <plugin>
-          		<groupId>org.apache.maven.plugins</groupId>
-          		<artifactId>maven-release-plugin</artifactId>
-          		<version>2.5.3</version>
-          		<configuration>
-            		<localCheckout>true</localCheckout>
-            		<autoVersionSubmodules>true</autoVersionSubmodules>
-          		</configuration>
-        </plugin>
-            
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>4.5.6</version>
+			</plugin>
+			<!-- END Sonar configuration -->
         </plugins>
-        <finalName>GetAssociateIdentifier</finalName>
     </build>
     
 	<distributionManagement>
