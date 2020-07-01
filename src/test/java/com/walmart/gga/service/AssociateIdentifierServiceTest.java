@@ -13,8 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.when;
 
 import com.walmart.gai.dao.WinAssociate;
-import com.walmart.gai.dao.repositoryInternational.WinAssociateRepositoryInternational;
-import com.walmart.gai.dao.repositoryLocal.WinAssociateRepository;
+import com.walmart.gai.dao.repositoryinternational.WinAssociateRepositoryInternational;
+import com.walmart.gai.dao.repositorylocal.WinAssociateRepository;
 import com.walmart.gai.model.AssocIdentifier;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.model.AssocIdentifierResponse;

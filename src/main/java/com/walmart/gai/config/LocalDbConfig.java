@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(
 		 	entityManagerFactoryRef = "gaiLocalEntityManager",
 		    transactionManagerRef = "gaiLocalTransactionManager",
-		    basePackages = {"com.walmart.gai.dao.repositoryLocal"})
+		    basePackages = {"com.walmart.gai.dao.repositorylocal"})
 public class LocalDbConfig {
 	
 	@Value("${spring.datasource.url}")
@@ -89,8 +89,7 @@ public class LocalDbConfig {
 	@Bean(name="tm1")
     @Primary
     DataSourceTransactionManager tm1(@Qualifier("primaryDataSource") DataSource datasource) {
-        DataSourceTransactionManager txm  = new DataSourceTransactionManager(dataSource());
-        return txm;
+		return new DataSourceTransactionManager(dataSource());
     }
 
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.walmart.gai.globalFilter.GlobalFilter;
+import com.walmart.gai.globalfilter.GlobalFilter;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.model.AssocIdentifierResponse;
 import com.walmart.gai.service.AssocIdentifierService;

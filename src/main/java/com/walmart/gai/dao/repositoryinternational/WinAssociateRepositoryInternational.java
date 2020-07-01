@@ -1,4 +1,4 @@
-package com.walmart.gai.dao.repositoryInternational;
+package com.walmart.gai.dao.repositoryinternational;
 
 import javax.transaction.Transactional;
 

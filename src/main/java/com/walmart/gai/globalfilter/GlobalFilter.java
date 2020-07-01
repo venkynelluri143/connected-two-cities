@@ -1,4 +1,4 @@
-package com.walmart.gai.globalFilter;
+package com.walmart.gai.globalfilter;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import com.walmart.gai.security.LdapAuthenticationProvider;
-import com.walmart.gai.security.SecurityFilter;
-
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled=true)

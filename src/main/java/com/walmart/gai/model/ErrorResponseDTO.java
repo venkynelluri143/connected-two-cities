@@ -1,9 +1,7 @@
 package com.walmart.gai.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
@@ -11,11 +9,11 @@ public class ErrorResponseDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	public Date time;
-	public HttpStatus httpStatus;
-	public String code;
-	public String message;
-	public String object;
+	private Date time;
+	private HttpStatus httpStatus;
+	private String code;
+	private String message;
+	private String object;
 
 	public ErrorResponseDTO(HttpStatus httpStatus, String code, String message,
 			String object) {

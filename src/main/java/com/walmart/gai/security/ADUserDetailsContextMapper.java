@@ -34,12 +34,12 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 	
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(ADUserDetailsContextMapper.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ADUserDetailsContextMapper.class);
 
 	@Override
 	public UserDetails mapUserFromContext(DirContextOperations ctx, String username,
 			Collection<? extends GrantedAuthority> authorities) {
-		List<GrantedAuthority> mappedAuthorities = new ArrayList<GrantedAuthority>();
+		List<GrantedAuthority> mappedAuthorities = new ArrayList<>();
 		Essence essence= new Essence(ctx);
 		essence.setUsername(username);
 		String[] members = ctx.getStringAttributes(Constants.MEMBEROF);
@@ -57,13 +57,13 @@ public class ADUserDetailsContextMapper implements UserDetailsContextMapper, Ser
 	}
 	
 	private List<GrantedAuthority> buildUserAuthority(String[] members) {
-	    Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+	    Set<GrantedAuthority> setAuths = new HashSet<>();
 	    // Build user's authorities
 	    if(members != null){
 	    	Arrays.stream(members) 
 	        .forEach(e->setAuths.add(new SimpleGrantedAuthority(e))); 
 	    }
-	    return new ArrayList<GrantedAuthority>(setAuths);
+	    return new ArrayList<>(setAuths);
 	}
 
 }

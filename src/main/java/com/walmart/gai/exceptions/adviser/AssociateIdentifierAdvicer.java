@@ -27,7 +27,7 @@ public class AssociateIdentifierAdvicer {
     public List<ErrorResponseDTO> handleMethodArgumentNotValid(HttpServletRequest req, BindException ex) {
 
 	List<ObjectError> errors = ex.getBindingResult().getAllErrors();
-	List<ErrorResponseDTO> errorList = new ArrayList<ErrorResponseDTO>();
+	List<ErrorResponseDTO> errorList = new ArrayList<>();
 
 	for (ObjectError e : errors) {
 	    if (e instanceof FieldError) {
@@ -46,7 +46,7 @@ public class AssociateIdentifierAdvicer {
     @ResponseBody
     public List<ErrorResponseDTO> handleMethodArgumentNotValid(HttpServletRequest req, DataNotFoundException e) {
 
-	List<ErrorResponseDTO> errorList = new ArrayList<ErrorResponseDTO>();
+	List<ErrorResponseDTO> errorList = new ArrayList<>();
 	errorList.add(new ErrorResponseDTO(HttpStatus.NOT_FOUND, e.getCode(), e.getDescription(), req.getRequestURI()));
 
 	return errorList;
@@ -57,7 +57,7 @@ public class AssociateIdentifierAdvicer {
     @ResponseBody
     public List<ErrorResponseDTO> handleMethodArgumentNotValid(HttpServletRequest req, BadRequestException e) {
 
-	List<ErrorResponseDTO> errorList = new ArrayList<ErrorResponseDTO>();
+	List<ErrorResponseDTO> errorList = new ArrayList<>();
 	errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getError().getCode(), e.getError().getDefaultMessage(), req.getRequestURI()));
 	return errorList;
     }

@@ -1,4 +1,4 @@
-package com.walmart.gai.dao.repositoryLocal;
+package com.walmart.gai.dao.repositorylocal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

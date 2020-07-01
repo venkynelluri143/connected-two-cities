@@ -21,7 +21,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @EnableJpaRepositories(
 		 	entityManagerFactoryRef = "gaiInternationalEntityManager",
 		    transactionManagerRef = "gaiInternationalTwoTransactionManager",
-		    basePackages = {"com.walmart.gai.dao.repositoryInternational"})
+		    basePackages = {"com.walmart.gai.dao.repositoryinternational"})
 public class InternationalDbConfig {
 	
 	@Value("${spring.globaldatasource.url}")
@@ -83,8 +83,7 @@ public class InternationalDbConfig {
 	
 	@Bean(name="tm2")
     DataSourceTransactionManager tm2(@Qualifier("secondaryDataSource") DataSource datasource) {
-        DataSourceTransactionManager txm  = new DataSourceTransactionManager(secondaryDataSource());
-        return txm;
+        return new DataSourceTransactionManager(secondaryDataSource());
     }
 	
 }

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.walmart.gai.dao.WinAssociate;
-import com.walmart.gai.dao.repositoryInternational.WinAssociateRepositoryInternational;
-import com.walmart.gai.dao.repositoryLocal.WinAssociateRepository;
+import com.walmart.gai.dao.repositoryinternational.WinAssociateRepositoryInternational;
+import com.walmart.gai.dao.repositorylocal.WinAssociateRepository;
 import com.walmart.gai.enumerations.ErrorCodeEnum;
 import com.walmart.gai.exceptions.DataNotFoundException;
 import com.walmart.gai.model.AssocIdentifierRequest;
@@ -31,8 +31,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 	
 	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
 		Boolean isGlobal = true;
-		AssocIdentifierResponse response = new AssocIdentifierResponse(); 
-		LOGGER.info("Given request :" +assocIdentifierRequest);
 		String id = assocIdentifierRequest.getAssocIdentifier().getAssociateId().trim(); //value 
 		String idType = assocIdentifierRequest.getAssocIdentifier().getIdType().trim(); //SSN , WIN 
 		String countryCode = assocIdentifierRequest.getCountryCode();
@@ -51,14 +49,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		
 		LOGGER.info("Win Associate :" +winAssociate);
 		if (winAssociate != null) {
-			response = assocIdentifierResponse(winAssociate, countryCode, groupLevel);
+			return assocIdentifierResponse(winAssociate, countryCode, groupLevel);
 		}else {
 			LOGGER.info("No Data Found for given ID :"+id+" and ID type :"+idType);
 			throw new DataNotFoundException(ErrorCodeEnum.GAI_NOT_FOUND.getCode(),ErrorCodeEnum.GAI_NOT_FOUND.getDescription()+id+" ,"+idType+" ,"+countryCode);
 		}
-		
-		LOGGER.info("Response :"+response);	
-		return response; 
 	}
 	
 	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode, String groupLevel){
