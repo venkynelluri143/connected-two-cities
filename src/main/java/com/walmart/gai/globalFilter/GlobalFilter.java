@@ -22,7 +22,7 @@ public class GlobalFilter {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalFilter.class);
 	
-	public String getMemberGroup(Authentication authentication, String countryCode){
+	public String getMemberGroup(Authentication authentication){
 		
 		List<String> memberList = new ArrayList<>();
 		if (authentication != null && authentication.getAuthorities() != null) {
@@ -58,7 +58,7 @@ public class GlobalFilter {
 			throw new BadRequestException(new FieldError(Constants.PROCESSID,ErrorCodeEnum.GGA_PROCESSID_NOMEMBERS.getCode(),ErrorCodeEnum.GGA_PROCESSID_NOMEMBERS.getDescription()));
 		}
 		
-		if(groupList != null && !groupList.isEmpty()){
+		if(!groupList.isEmpty()){
 			groupList.sort(Comparator.comparingInt(levels::indexOf));
 			LOGGER.info("Group List after sorted levels :"+groupList);
 			return groupList.get(0);

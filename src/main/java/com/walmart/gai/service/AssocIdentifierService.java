@@ -3,13 +3,10 @@ package com.walmart.gai.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.PersistenceContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.walmart.gai.dao.WinAssociate;
 import com.walmart.gai.dao.repositoryInternational.WinAssociateRepositoryInternational;
@@ -22,8 +19,6 @@ import com.walmart.gai.model.Associd;
 import com.walmart.gai.model.Associds;
 import com.walmart.gai.util.Constants;
 
-
-
 @Service
 public class AssocIdentifierService {
 private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierService.class);
@@ -33,9 +28,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 	
 	@Autowired
 	WinAssociateRepositoryInternational winAssociateRepositoryInternational;
-	
-	/*@Autowired
-	WinAssociateRepositoryImpl winAssociateRepositoryImpl;*/
 	
 	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
 		Boolean isGlobal = true;
@@ -104,25 +96,18 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		return response; 
 	}
 
-	//@Transactional("gaiLocalTransactionManager")
 	public WinAssociate getAssocIdentifierLocal(String id, String idType, String countryCode){
 		WinAssociate winAssociate = new WinAssociate();
 		if (idType.equals(Constants.WALMART_IDENTIFICATION_NUM))
 			winAssociate = winAssociateRepository.findByWalmartIdentificationNumberAndStrCountryCode(id,
 					countryCode);
-		else if (idType.equals(Constants.NATIONALID)) {
-			LOGGER.info("National Id Search :");
+		else if (idType.equals(Constants.NATIONALID)) 
 			winAssociate = winAssociateRepository.findByNationalIdAndStrCountryCode(id, countryCode);
-		}
+		
 		return winAssociate;
 	}
 	
-	//@Transactional("tm2")
-	//@Transactional(transactionManager = "gaiInternationalTwoTransactionManager")
 	public WinAssociate getAssocIdentifierInternational(String id, String idType, String countryCode){
-		/*WinAssociate response = winAssociateRepositoryImpl.getWinInternational(id, idType, countryCode);
-		LOGGER.info("Response: " + response);
-		*/
 		WinAssociate winAssociate = new WinAssociate();
 		if (idType.equals(Constants.WALMART_IDENTIFICATION_NUM))
 			winAssociate = winAssociateRepositoryInternational.findByWalmartIdentificationNumberAndStrCountryCode(id,

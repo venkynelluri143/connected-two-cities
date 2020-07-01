@@ -1,6 +1,9 @@
 package com.walmart.gai.util;
 
 public class Constants {
+	
+	private Constants(){}
+	
 	public static final String YES = "YES";
 	public static final int MAXTRIES = 3;
 	public static final String OPERATIONCHANNEL = "DFHWS-OPERATION";

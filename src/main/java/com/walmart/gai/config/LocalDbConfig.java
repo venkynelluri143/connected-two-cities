@@ -5,7 +5,6 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,7 +17,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration  
@@ -29,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		    basePackages = {"com.walmart.gai.dao.repositoryLocal"})
 public class LocalDbConfig {
 	
-	/*@Value("${spring.datasource.url}")
+	@Value("${spring.datasource.url}")
 	private String dbUrl;
 
 	@Value("${spring.datasource.driverClassName}")
@@ -39,9 +37,15 @@ public class LocalDbConfig {
 	private String userName;
 	
 	@Value("${spring.datasource.password}")
-	private String password;*/
+	private String password;
 	
-	//@Primary
+	@Value("${spring.hibernate.dialect}")
+	private String hibernateDialect;
+	
+	@Value("${spring.hibernate.show_sql}")
+	private String showSql;
+	
+	@Primary
 	@Bean(name = "gaiLocalEntityManager")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -56,22 +60,19 @@ public class LocalDbConfig {
 	
 		Properties additionalJpaProperties(){
 		Properties properties = new Properties();
-		//properties.setProperty("hibernate.hbm2ddl.auto", "update");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.DB2Dialect");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("", "");
-		
+		properties.setProperty("hibernate.dialect", hibernateDialect);
+		properties.setProperty("hibernate.show_sql", showSql);
 		return properties;
 	}
 	
-	//@Primary
+	@Primary
 	@Bean(name = "primaryDataSource")
 	public DataSource dataSource(){
 		return DataSourceBuilder.create()
-				.url("jdbc:db2://DSNSDRDA.wal-mart.com:49543/DSNS") //- ECGBUASC 
-				.driverClassName("com.ibm.db2.jcc.DB2Driver")
-				.username("remotec")
-				.password("tempsox1")
+				.url(dbUrl) //- ECGBLASC 
+				.driverClassName(dbDriver)
+				.username(userName)
+				.password(password)
 				.build();
 	}	
 	
@@ -86,16 +87,10 @@ public class LocalDbConfig {
 	}
 	
 	@Bean(name="tm1")
-    @Autowired
-    //@Primary
+    @Primary
     DataSourceTransactionManager tm1(@Qualifier("primaryDataSource") DataSource datasource) {
         DataSourceTransactionManager txm  = new DataSourceTransactionManager(dataSource());
         return txm;
     }
-	
-	//@Primary
-	/*@Bean(name = "gaiLocalTransactionManager")
-	public PlatformTransactionManager platformTransactionManager(@Qualifier("gaiLocalEntityManager") EntityManagerFactory gaiLocalEntityManager) {
-		return new JpaTransactionManager(gaiLocalEntityManager);
-	  }*/
+
 }

@@ -1,10 +1,5 @@
 package com.walmart.gai.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +19,6 @@ import com.walmart.gai.globalFilter.GlobalFilter;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.model.AssocIdentifierResponse;
 import com.walmart.gai.service.AssocIdentifierService;
-import com.walmart.gai.util.Constants;
 import com.walmart.gai.validator.AssociateIdentifierValidator;
 
 @RestController
@@ -44,25 +38,22 @@ public class AssocIdentifierController {
 	@RequestMapping(value = "/associate", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors) throws BindException {
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		AssocIdentifierResponse response = new AssocIdentifierResponse();
-		String groupLevel = globalFilter.getMemberGroup(authentication, assocIdentifierRequest.getCountryCode());
-		LOGGER.info("Group Level :"+groupLevel);
-		
-		// validate Input request - AssocIdentifierRequest 
+		LOGGER.info("Input Request :" + assocIdentifierRequest);
+		// validate Input request - AssocIdentifierRequest
 		getAssociateIdentifierValidator.validate(assocIdentifierRequest, errors);
-		if(errors.hasErrors()){
+		if (errors.hasErrors()) {
 			throw new BindException(errors);
 		}
-		LOGGER.info("Input Request :" + assocIdentifierRequest);
-		response = assocIdentifierService.assocIdentifierService(assocIdentifierRequest, groupLevel); 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		return response;
+		String groupLevel = globalFilter.getMemberGroup(authentication);
+		LOGGER.info("Group Level :"+groupLevel);
+		
+		return assocIdentifierService.assocIdentifierService(assocIdentifierRequest, groupLevel); 		
 	}
 	
 	@RequestMapping(value="/healthCheck", method = RequestMethod.GET, produces="application/json") 
 	public ResponseEntity<String> healthCheck(){
-		return new ResponseEntity<String>("OK", HttpStatus.OK);
+		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 }
