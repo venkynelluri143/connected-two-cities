@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,7 +35,7 @@ import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.util.Constants;
 
 
-//@RunWith(MockitoJUnitRunner.class)
+@ActiveProfiles("dev")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = GetAssociateIdentifier.class)
 @WebAppConfiguration
