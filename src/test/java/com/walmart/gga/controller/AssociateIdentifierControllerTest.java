@@ -3,6 +3,7 @@ package com.walmart.gga.controller;
 import javax.servlet.Filter;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
@@ -10,17 +11,12 @@ import java.net.URI;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,8 +35,6 @@ import com.walmart.gai.util.Constants;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = GetAssociateIdentifier.class)
 @WebAppConfiguration
-//@TestPropertySource(locations = "classpath:application-dev.properties")
-//@ContextConfiguration(classes = GetAssociateIdentifier.class)
 public class AssociateIdentifierControllerTest{
 	private static final Logger LOGGER = LoggerFactory.getLogger(AssociateIdentifierControllerTest.class);
 	private static final String APPLN_CHARSET = "application/json;charset=UTF-8";
@@ -63,7 +57,6 @@ public class AssociateIdentifierControllerTest{
 			LOGGER.error("Exception test - testYesNo" + e);
 		}
 	}
-    
     
     @Test
     public void validateGetAssociateIdentifier(){
@@ -90,6 +83,49 @@ public class AssociateIdentifierControllerTest{
     	}
     }
     
+    @Test
+    public void validateGetAssociateIdentifierBadRequest(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId("224222714");
+    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(null);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isBadRequest());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierHealthCheck(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		URI url = new URI("/assocIdentifier/healthCheck");
+    		
+			this.mockMvc.perform(
+					get(url).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isOk());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
     private String convertObjectToJsonArray(AssocIdentifierRequest request) throws JsonProcessingException {
     	ObjectMapper mapper = new ObjectMapper();
     	String inputData = null;
@@ -97,6 +133,5 @@ public class AssociateIdentifierControllerTest{
     	LOGGER.info(inputData);
     	return inputData;
         }
-    
     
 }
