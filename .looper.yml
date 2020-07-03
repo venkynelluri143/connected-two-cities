@@ -25,7 +25,8 @@ flows:
    
   
   build: 
-    - mvn -f /pom.xml clean install 
+    #- mvn -f ./pom.xml clean install 
+    - mvn clean install 
     #-Dmaven.test.skip=true
      
   runSonar(ui runSonar): 
