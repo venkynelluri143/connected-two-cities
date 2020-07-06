@@ -32,9 +32,9 @@ public class AssociateIdentifierAdvicer {
 	for (ObjectError e : errors) {
 	    if (e instanceof FieldError) {
 		FieldError fe = (FieldError) e;
-		errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getCode(), fe.getField() + " " + e.getDefaultMessage(), req.getRequestURI()));
+		errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getCode(), fe.getField() + " " + e.getDefaultMessage(), req.getRequestURL().toString()));
 	    } else {
-		errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getCode(), e.getDefaultMessage(), req.getRequestURI()));
+		errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getCode(), e.getDefaultMessage(), req.getRemoteHost()));
 	    }
 
 	}
@@ -47,7 +47,7 @@ public class AssociateIdentifierAdvicer {
     public List<ErrorResponseDTO> handleMethodArgumentNotValid(HttpServletRequest req, DataNotFoundException e) {
 
 	List<ErrorResponseDTO> errorList = new ArrayList<>();
-	errorList.add(new ErrorResponseDTO(HttpStatus.NOT_FOUND, e.getCode(), e.getDescription(), req.getRequestURI()));
+	errorList.add(new ErrorResponseDTO(HttpStatus.NOT_FOUND, e.getCode(), e.getDescription(), "<"+req.getRequestURI()+">"));
 
 	return errorList;
     }
@@ -58,7 +58,7 @@ public class AssociateIdentifierAdvicer {
     public List<ErrorResponseDTO> handleMethodArgumentNotValid(HttpServletRequest req, BadRequestException e) {
 
 	List<ErrorResponseDTO> errorList = new ArrayList<>();
-	errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getError().getCode(), e.getError().getDefaultMessage(), req.getRequestURI()));
+	errorList.add(new ErrorResponseDTO(HttpStatus.BAD_REQUEST, e.getError().getCode(), e.getError().getDefaultMessage(), req.getRemoteAddr()));
 	return errorList;
     }
 

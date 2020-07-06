@@ -7,8 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+//@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @ComponentScan(basePackages={"com.walmart.gai"})
 public class GetAssociateIdentifier extends SpringBootServletInitializer{
 
