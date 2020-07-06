@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World GGA wakeup!</h2>
+<h2>Get Associate Identifier Core HR Service</h2>
 </body>
 </html>
