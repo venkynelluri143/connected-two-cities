@@ -50,8 +50,7 @@ public class AssociateIdentifierControllerTest{
     @Before
 	public void setup() {
 		try {
-			this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).defaultRequest(post("/")
-					.with(httpBasic("privwfm1", "Smiley1")))
+			this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
 					.addFilter(springSecurityFilterChain).build();
 		} catch (Exception e) {
 			LOGGER.error("Exception test - testYesNo" + e);
@@ -72,7 +71,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
@@ -97,7 +96,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -122,7 +121,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -147,7 +146,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -170,7 +169,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -188,7 +187,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/healthCheck");
     		
 			this.mockMvc.perform(
-					get(url).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					get(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
@@ -213,8 +212,58 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierUnAuthorized(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId("224222714");
+    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(Constants.COUNTRYCODE_US);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCREDINCO)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isUnauthorized());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierNoValidMembers(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId("224222714");
+    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(Constants.COUNTRYCODE_US);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isBadRequest());
     		
     		
     		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");

@@ -47,6 +47,10 @@ public class Constants {
 	public static final String PUBLIC2 = "PUBLIC-2";
 	public static final String PUBLIC3 = "PUBLIC-3";
 	
+	public static final String USERNAME = "privwfm1";
+	public static final String USERCRED = "Smiley1";
+	public static final String USERCREDINCO = "Smiley";
+	
 	public static final String AUTHORIZATION = "Authorization";
 	public static final String CONTENTTYPE = "application/json";
 	public static final String AUTHENTICATIONMESSAGE = "Full Authentication is required to access this resource";
