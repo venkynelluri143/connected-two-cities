@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.walmart.gai.dao.WinAssociate;
 import com.walmart.gai.dao.repositoryinternational.WinAssociateRepositoryInternational;
@@ -102,6 +103,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierServ
 		return winAssociate;
 	}
 	
+	@Transactional(transactionManager = "tm1")
 	public WinAssociate getAssocIdentifierInternational(String id, String idType, String countryCode){
 		WinAssociate winAssociate = new WinAssociate();
 		if (idType.equals(Constants.WALMART_IDENTIFICATION_NUM))

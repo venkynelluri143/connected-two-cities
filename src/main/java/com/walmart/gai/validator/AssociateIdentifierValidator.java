@@ -39,18 +39,17 @@ public class AssociateIdentifierValidator implements Validator {
 				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_ID.getCode(),
 						ErrorCodeEnum.GAI_ASSOC_ID.getDescription());
 			}
-			if (request.getAssocIdentifier().getIdType() == null
-					|| request.getAssocIdentifier().getIdType().trim().isEmpty()) {
+			if (request.getAssocIdentifier().getIdType() == null) {
 				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_IDTYPE.getCode(),
 						ErrorCodeEnum.GAI_ASSOC_IDTYPE.getDescription());
 			}
 
-			if (!idTypes.contains(request.getAssocIdentifier().getIdType())) {
+			else if (!idTypes.contains(request.getAssocIdentifier().getIdType())) {
 				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_ID_INVALID.getCode(),
 						ErrorCodeEnum.GAI_ASSOC_ID_INVALID.getDescription());
 			}
 
-			if (request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.WALMART_IDENTIFICATION_NUM)
+			else if (request.getAssocIdentifier().getIdType().equalsIgnoreCase(Constants.WALMART_IDENTIFICATION_NUM)
 					&& (request.getAssocIdentifier().getAssociateId().length() != 9)) {
 				errors.rejectValue(Constants.ASSOCIDENTIFIER, ErrorCodeEnum.GAI_ASSOC_ID_INVALID_LENGTH.getCode(),
 						ErrorCodeEnum.GAI_ASSOC_ID_INVALID_LENGTH.getDescription());

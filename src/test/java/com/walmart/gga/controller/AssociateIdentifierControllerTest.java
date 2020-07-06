@@ -89,8 +89,81 @@ public class AssociateIdentifierControllerTest{
     		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
     		AssocIdentifierRequest request = new AssocIdentifierRequest();
     		AssocIdentifier assocIdentifier = new AssocIdentifier();
-    		assocIdentifier.setAssociateId("224222714");
-    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
+    		assocIdentifier.setAssociateId(null);
+    		assocIdentifier.setIdType(null);
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(null);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isBadRequest());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierInvalidRequest(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId(null);
+    		assocIdentifier.setIdType("WININ");
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(null);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isBadRequest());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierBindException(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId("1234567890");
+    		assocIdentifier.setIdType("WIN");
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode(null);
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isBadRequest());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierBadException(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = null;
     		request.setAssocIdentifier(assocIdentifier);
     		request.setCountryCode(null);
     		
@@ -116,6 +189,31 @@ public class AssociateIdentifierControllerTest{
     		
 			this.mockMvc.perform(
 					get(url).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					.andExpect(status().isOk());
+    		
+    		
+    		LOGGER.info("==================================Exiting from validateGetAssocIdentifier=================================");
+    		
+    	}catch(Exception e){
+    		LOGGER.info("Exception is", e);
+    	}
+    }
+    
+    @Test
+    public void validateGetAssociateIdentifierInternational(){
+    	try{
+    		LOGGER.info("==================================Entering into validateGetAssocIdentifier================================");
+    		AssocIdentifierRequest request = new AssocIdentifierRequest();
+    		AssocIdentifier assocIdentifier = new AssocIdentifier();
+    		assocIdentifier.setAssociateId("226669310");
+    		assocIdentifier.setIdType(Constants.WALMART_IDENTIFICATION_NUM);
+    		request.setAssocIdentifier(assocIdentifier);
+    		request.setCountryCode("MX");
+    		
+    		URI url = new URI("/assocIdentifier/associate");
+    		
+			this.mockMvc.perform(
+					post(url).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
