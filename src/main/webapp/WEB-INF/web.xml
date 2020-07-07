@@ -13,13 +13,13 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
         <secure>true</secure>
     </cookie-config>
  	</session-config>
- 	<filter> <!-- checkmarx now complains here -->
+ 	<filter>
     <filter-name>httpHeaderSecurity</filter-name>
     <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
     <async-supported>true</async-supported>
     <init-param>
         <param-name>hstsMaxAgeSeconds</param-name>
-        <param-value>31622400</param-value>
+        <param-value>31536000</param-value>
     </init-param>
     <init-param>
     	<param-name>hstsIncludeSubDomains</param-name>
