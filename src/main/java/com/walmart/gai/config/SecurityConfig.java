@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
     	
 		http
-        .headers().xssProtection().and().httpStrictTransportSecurity()
+        .headers().xssProtection().block(false).and().frameOptions().and().httpStrictTransportSecurity()
                 .includeSubDomains(true)
                 .maxAgeInSeconds(31536000);
 		
