@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd" id="WebApp_ID" version="3.0" >
+	<display-name>GetGlobalAssociate</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<session-config>
+    <cookie-config>
+        <http-only>true</http-only>
+        <secure>true</secure>
+    </cookie-config>
+ 	</session-config>
+ 	<filter> <!-- checkmarx now complains here -->
+    <filter-name>httpHeaderSecurity</filter-name>
+    <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+    <async-supported>true</async-supported>
+    <init-param>
+        <param-name>hstsMaxAgeSeconds</param-name>
+        <param-value>31622400</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>hstsIncludeSubDomains</param-name>
+    	<param-value>true</param-value>
+	</init-param>
+
+	<init-param>
+    	<param-name>hstsEnabled</param-name>
+    	<param-value>true</param-value>
+	</init-param>
+	</filter>
+
+	<filter-mapping>
+    	<filter-name>httpHeaderSecurity</filter-name>
+    	<url-pattern>/*</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+</web-app>
