@@ -2,6 +2,8 @@ package com.walmart.gai.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walmart.gai.model.ErrorResponseDTO;
 import com.walmart.gai.util.Constants;
 
-public class SecurityFilter extends GenericFilterBean{
+public class SecurityFilter extends GenericFilterBean implements Filter{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
 	
