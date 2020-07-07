@@ -26,6 +26,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     	http.httpBasic();
     	http.csrf().disable();
     	http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    	
+    	http
+        .headers()
+            .httpStrictTransportSecurity()
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000);
     	 
     }
     
