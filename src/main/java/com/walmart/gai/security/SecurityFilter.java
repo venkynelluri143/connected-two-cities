@@ -31,14 +31,11 @@ public class SecurityFilter extends GenericFilterBean{
 			throws IOException, ServletException {
 			
 			HttpServletRequest req = (HttpServletRequest) request;
-			HttpServletResponse resp = (HttpServletResponse) response;
 			String authorization = req.getHeader(Constants.AUTHORIZATION);
 			LOGGER.info("Authorization in the request  :" +authorization);
 			if(authorization != null 
 					|| req.getRequestURI().contains("/health") 
 					|| req.getRequestURI().contains("/swagger")){
-				if (req.isSecure())
-					resp.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
 				chain.doFilter(request, response);
 			}else {
 				((HttpServletResponse) response).setStatus(HttpStatus.UNAUTHORIZED.value());
