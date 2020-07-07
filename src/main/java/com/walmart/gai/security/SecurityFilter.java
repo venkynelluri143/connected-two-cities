@@ -40,6 +40,7 @@ public class SecurityFilter extends GenericFilterBean{
 			}else {
 				((HttpServletResponse) response).setStatus(HttpStatus.UNAUTHORIZED.value());
 				((HttpServletResponse) response).setContentType(Constants.CONTENTTYPE);
+				((HttpServletResponse) response).setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
 				ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.UNAUTHORIZED,String.valueOf(HttpStatus.UNAUTHORIZED.value()),Constants.AUTHENTICATIONMESSAGE, req.getContextPath());
 		        PrintWriter out = response.getWriter();
 		        out.print(objectMapper.writeValueAsString(errorResponse));
