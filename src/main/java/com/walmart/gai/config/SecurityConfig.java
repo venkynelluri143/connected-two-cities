@@ -22,17 +22,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
     	
+		http
+        .headers()
+            .httpStrictTransportSecurity()
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000);
+		
     	http.authorizeRequests().antMatchers("/swagger-ui.html").authenticated();
     	http.httpBasic();
     	http.csrf().disable();
     	http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     	
-    	http
-        .headers()
-            .httpStrictTransportSecurity()
-                .includeSubDomains(true)
-                .maxAgeInSeconds(31536000);
-    	 
     }
     
     @Override
