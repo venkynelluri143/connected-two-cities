@@ -17,15 +17,10 @@ import com.walmart.gai.security.LdapAuthenticationProvider;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	LdapAuthenticationProvider ldapAuthenticationProvider;
+	private LdapAuthenticationProvider ldapAuthenticationProvider;
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-    	
-		/*http
-        .headers().xssProtection().block(false).and().frameOptions().and().httpStrictTransportSecurity()
-                .includeSubDomains(true)
-                .maxAgeInSeconds(31536000);*/
 		
     	http.authorizeRequests().antMatchers("/swagger-ui.html").authenticated();
     	http.httpBasic();

@@ -35,7 +35,7 @@ public class InternationalDbConfig {
 	@Value("${spring.datasource.username}")
 	private String userName;
 	
-	@Value("${spring.datasource.password}")
+	@Value("${spring.datasource.cred}")
 	private String password;
 	
 	@Value("${spring.hibernate.dialect}")

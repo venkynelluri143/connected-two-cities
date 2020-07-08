@@ -34,13 +34,13 @@ public class AssociateIdentifierServiceTest {
 	private String NATIONALID_MX = "98119235806";
 	
 	@InjectMocks
-	AssocIdentifierService assocIdentifierService;
+	private AssocIdentifierService assocIdentifierService;
 	
 	@Mock
-	WinAssociateRepository winAssociateRepository;
+	private WinAssociateRepository winAssociateRepository;
 	
 	@Mock
-	WinAssociateRepositoryInternational winAssociateRepositoryInternational;
+	private WinAssociateRepositoryInternational winAssociateRepositoryInternational;
 
 	@Before
 	public void setUp() {

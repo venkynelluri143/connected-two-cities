@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class LdapAuthenticationProvider implements AuthenticationProvider{
 	
 	@Autowired
-	AuthenticationProvider activeDirectoryLdapAuthenticationProvider;
+	private AuthenticationProvider activeDirectoryLdapAuthenticationProvider;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LdapAuthenticationProvider.class);
 	

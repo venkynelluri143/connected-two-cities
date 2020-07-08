@@ -27,7 +27,7 @@ public class SecurityFilter extends GenericFilterBean{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
 	
 	@Autowired
-	ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

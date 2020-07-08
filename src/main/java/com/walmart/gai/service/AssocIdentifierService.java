@@ -24,10 +24,10 @@ public class AssocIdentifierService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierService.class);
 	
 	@Autowired
-	WinAssociateRepository winAssociateRepository;
+	private WinAssociateRepository winAssociateRepository;
 	
 	@Autowired
-	WinAssociateRepositoryInternational winAssociateRepositoryInternational;
+	private WinAssociateRepositoryInternational winAssociateRepositoryInternational;
 	
 	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
 		Boolean isGlobal = true;
