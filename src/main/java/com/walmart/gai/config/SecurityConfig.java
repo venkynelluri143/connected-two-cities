@@ -22,10 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-		http
+		/*http
         .headers().xssProtection().block(false).and().frameOptions().and().httpStrictTransportSecurity()
                 .includeSubDomains(true)
-                .maxAgeInSeconds(31536000);
+                .maxAgeInSeconds(31536000);*/
 		
     	http.authorizeRequests().antMatchers("/swagger-ui.html").authenticated();
     	http.httpBasic();

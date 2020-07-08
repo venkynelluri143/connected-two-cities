@@ -3,7 +3,6 @@ package com.walmart.gai.security;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -15,13 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walmart.gai.model.ErrorResponseDTO;
 import com.walmart.gai.util.Constants;
 
-public class SecurityFilter extends GenericFilterBean implements Filter{
+@Component
+public class SecurityFilter extends GenericFilterBean{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
 	
@@ -42,7 +43,8 @@ public class SecurityFilter extends GenericFilterBean implements Filter{
 			}else {
 				((HttpServletResponse) response).setStatus(HttpStatus.UNAUTHORIZED.value());
 				((HttpServletResponse) response).setContentType(Constants.CONTENTTYPE);
-				((HttpServletResponse) response).setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+				if(req.isSecure()) 
+					((HttpServletResponse) response).setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
 				ErrorResponseDTO errorResponse = new ErrorResponseDTO(HttpStatus.UNAUTHORIZED,String.valueOf(HttpStatus.UNAUTHORIZED.value()),Constants.AUTHENTICATIONMESSAGE, req.getContextPath());
 		        PrintWriter out = response.getWriter();
 		        out.print(objectMapper.writeValueAsString(errorResponse));
