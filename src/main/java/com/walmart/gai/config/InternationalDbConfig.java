@@ -36,7 +36,7 @@ public class InternationalDbConfig {
 	private String userName;
 	
 	@Value("${spring.datasource.cred}")
-	private String password;
+	private String cred;
 	
 	@Value("${spring.hibernate.dialect}")
 	private String hibernateDialect;
@@ -70,7 +70,7 @@ public class InternationalDbConfig {
 				.url(dbUrl) //- ECGBUASC 
 				.driverClassName(dbDriver)
 				.username(userName)
-				.password(password)
+				.password(cred)
 				.build();
 	}	
 	
