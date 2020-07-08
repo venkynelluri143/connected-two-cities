@@ -21,7 +21,7 @@ import com.walmart.gai.util.Constants;
 
 @Service
 public class AssocIdentifierService {
-private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierService.class);
 	
 	@Autowired
 	WinAssociateRepository winAssociateRepository;

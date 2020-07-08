@@ -27,13 +27,13 @@ public class AssocIdentifierController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AssocIdentifierController.class);
 	
 	@Autowired
-	AssocIdentifierService assocIdentifierService; 
+	private AssocIdentifierService assocIdentifierService; 
 	
 	@Autowired
-	AssociateIdentifierValidator getAssociateIdentifierValidator;
+	private AssociateIdentifierValidator getAssociateIdentifierValidator;
 	
 	@Autowired
-	GlobalFilter globalFilter;
+	private GlobalFilter globalFilter;
 	
 	@RequestMapping(value = "/associate", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors) throws BindException {
