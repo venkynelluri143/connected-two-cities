@@ -1,0 +1,37 @@
+# Required minimal config
+owner:
+  group: corehr-wcnp-developers # change to your own group 
+notify:
+  slack:
+    channelName: corehr-wcnp-alerts # change to your own slack channel 
+profiles:
+  - springboot-web
+setup:
+  releaseRefs: ["featurebranch","GAI_SonarIntegration"]
+# Needed to get container to start, depends on app  
+deploy:
+  namespace: getassoc-service
+  releaseType:
+   deployTimeout: 1500
+  helm:
+    values:
+      livenessProbe:
+        wait: 120
+      min:
+        cpu: 100m
+        memory: 256Mi
+      max:
+        cpu: 100m
+        memory: 1024Mi
+      networking:
+        httpsEnabled: false
+        httpEnabled: true 
+  stages:
+    - name: dev
+      helm:
+        values:
+          env:
+            JAVA_OPTS: "-Dspring.profiles.active=dev"
+      refs: [master,branch]
+      target:
+        - cluster_id: [scus-dev-a2]
