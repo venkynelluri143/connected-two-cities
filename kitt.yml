@@ -3,7 +3,7 @@ owner:
   group: corehr-wcnp-developers # change to your own group 
 notify:
   slack:
-    channelName: corehr-wcnp-hcm-nonprod # change to your own slack channel 
+    channelName: corehr-wcnp-hcm-nonprod #change to your own slack channel 
 profiles:
   - springboot-web
 setup:
