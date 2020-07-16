@@ -17,6 +17,8 @@ deploy:
     values:
       livenessProbe:
         wait: 120
+      readinessProbe:
+        wait: 300    
       min:
         cpu: 100m
         memory: 256Mi
@@ -24,7 +26,7 @@ deploy:
         cpu: 512m
         memory: 1024Mi
       networking:
-        httpsEnabled: false
+        httpsEnabled: true
         httpEnabled: true 
   stages:
     - name: dev
