@@ -23,7 +23,7 @@ deploy:
         cpu: 100m
         memory: 256Mi
       max:
-        cpu: 512m
+        cpu: 800m
         memory: 1024Mi
       networking:
         httpsEnabled: true
