@@ -16,9 +16,9 @@ deploy:
   helm:
     values:
       livenessProbe:
-        wait: 120
+        wait: 300
       readinessProbe:
-        wait: 300    
+        wait: 400    
       min:
         cpu: 100m
         memory: 256Mi
