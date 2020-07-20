@@ -14,11 +14,7 @@ deploy:
   releaseType:
    deployTimeout: 1200
   helm:
-    values:
-      livenessProbe:
-        wait: 300
-      readinessProbe:
-        wait: 400    
+    values: 
       min:
         cpu: 100m
         memory: 256Mi
