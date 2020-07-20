@@ -7,14 +7,30 @@ notify:
 profiles:
   - springboot-web
 setup:
-  releaseRefs: ["featurebranch","GAI_SonarIntegration"]
+  releaseRefs: ["GAI_SonarIntegration"]
 # Needed to get container to start, depends on app  
 deploy:
   namespace: getassoc-service
   releaseType:
    deployTimeout: 1200
   helm:
-    values: 
+    values:
+      livenessProbe:
+        enabled: "true"
+        headers: application/json, application/xml, text/plain, text/html
+        probeInterval: 10
+        wait: 30
+        path: "/GetAssociateIdentifier/actuator/health"
+        port: 8080
+        failureThreshold: 3
+      readinessProbe:
+        enabled: "true"
+        headers: application/json, application/xml, text/plain, text/html
+        probeInterval: 15
+        wait: 15
+        path: "/GetAssociateIdentifier/actuator/health"
+        port: 8080
+        failureThreshold: 3
       min:
         cpu: 100m
         memory: 256Mi
@@ -30,6 +46,12 @@ deploy:
         values:
           env:
             JAVA_OPTS: "-Dspring.profiles.active=dev"
+          metadata:
+             labels:
+               strati.appkey: GETASSOC123
+               strati.env: Dev
+             annotations:
+               strati.passthroughUris: '[{"Path": "^/swagger-ui.html$"},{"Path": "^/webjars/.*$"},{"Path": "^/swagger-resources$"},{"Path": "^/swagger-resources/.*$"},{"Path": "^/v2/api.docs$"}]'
       refs: [master,branch]
       target:
         - cluster_id: [scus-dev-a2]
