@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walmart.gai.GetAssociateIdentifier;
+import com.walmart.gai.globalfilter.GlobalFilter;
 import com.walmart.gai.model.AssocIdentifier;
 import com.walmart.gai.model.AssocIdentifierRequest;
 import com.walmart.gai.util.Constants;
@@ -47,11 +48,21 @@ public class AssociateIdentifierControllerTest{
     @Autowired
     private Filter springSecurityFilterChain;
     
+    @Autowired
+    private GlobalFilter globalFilter;
+    
+    private String userName = null; 
+    private String credential = null; 
+    private String incUserCred = null;
+    
     @Before
 	public void setup() {
 		try {
 			this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
 					.addFilter(springSecurityFilterChain).build();
+			userName = globalFilter.getPropValues(Constants.SVCUSERNAME);
+			credential = globalFilter.getPropValues(Constants.SVCUSERCRED);
+			incUserCred = globalFilter.getPropValues(Constants.SVCUSERCREDINCO);
 		} catch (Exception e) {
 			LOGGER.error("Exception test - testYesNo" + e);
 		}
@@ -71,7 +82,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
@@ -96,7 +107,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -121,7 +132,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -146,7 +157,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -169,7 +180,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isBadRequest());
     		
     		
@@ -187,7 +198,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/healthCheck");
     		
 			this.mockMvc.perform(
-					get(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					get(url).with(httpBasic(userName, credential)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
@@ -212,7 +223,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCRED)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, credential)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isOk());
     		
     		
@@ -237,7 +248,7 @@ public class AssociateIdentifierControllerTest{
     		URI url = new URI("/assocIdentifier/associate");
     		
 			this.mockMvc.perform(
-					post(url).with(httpBasic(Constants.USERNAME, Constants.USERCREDINCO)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
+					post(url).with(httpBasic(userName, incUserCred)).content(convertObjectToJsonArray(request)).contentType(MediaType.parseMediaType(APPLN_CHARSET)))
 					.andExpect(status().isUnauthorized());
     		
     		

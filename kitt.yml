@@ -46,6 +46,11 @@ deploy:
         values:
           env:
             JAVA_OPTS: "-Dspring.profiles.active=dev"
+          secrets:
+             file_refresh: true
+             files:
+             - destination: /secrets.properties
+               content: getassocservice-dev#secrets
           metadata:
              labels:
                strati.appkey: GETASSOC123

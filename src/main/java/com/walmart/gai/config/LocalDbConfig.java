@@ -1,10 +1,12 @@
 package com.walmart.gai.config;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,6 +20,9 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.walmart.gai.globalfilter.GlobalFilter;
+import com.walmart.gai.util.Constants;
 
 @Configuration  
 @EnableTransactionManagement
@@ -33,21 +38,18 @@ public class LocalDbConfig {
 	@Value("${spring.datasource.driverClassName}")
 	private String dbDriver;
 	
-	@Value("${spring.datasource.username}")
-	private String userName;
-	
-	@Value("${spring.datasource.cred}")
-	private String cred;
-	
 	@Value("${spring.hibernate.dialect}")
 	private String hibernateDialect;
 	
 	@Value("${spring.hibernate.show_sql}")
 	private String showSql;
 	
+	@Autowired
+	private GlobalFilter globalFilter;
+	
 	@Primary
 	@Bean(name = "gaiLocalEntityManager")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws IOException{
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
@@ -67,18 +69,18 @@ public class LocalDbConfig {
 	
 	@Primary
 	@Bean(name = "primaryDataSource")
-	public DataSource dataSource(){
+	public DataSource dataSource() throws IOException{
 		return DataSourceBuilder.create()
 				.url(dbUrl) //- ECGBLASC 
 				.driverClassName(dbDriver)
-				.username(userName)
-				.password(cred)
+				.username(globalFilter.getPropValues(Constants.USERNAME))
+				.password(globalFilter.getPropValues(Constants.USERCRED))
 				.build();
 	}	
 	
 	@Primary
 	@Bean(name = "gaiLocalTransactionManager")
-	public JpaTransactionManager transactionManager(@Qualifier("gaiLocalEntityManager")  EntityManagerFactory gaiLocalEntityManager){
+	public JpaTransactionManager transactionManager(@Qualifier("gaiLocalEntityManager")  EntityManagerFactory gaiLocalEntityManager) throws IOException{
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(gaiLocalEntityManager);		
 		transactionManager.setDataSource(dataSource());
@@ -88,7 +90,7 @@ public class LocalDbConfig {
 	
 	@Bean(name="tm1")
     @Primary
-    DataSourceTransactionManager tm1(@Qualifier("primaryDataSource") DataSource datasource) {
+    DataSourceTransactionManager tm1(@Qualifier("primaryDataSource") DataSource datasource) throws IOException {
 		return new DataSourceTransactionManager(dataSource());
     }
 

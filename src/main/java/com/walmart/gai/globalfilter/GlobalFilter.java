@@ -1,15 +1,19 @@
 package com.walmart.gai.globalfilter;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
@@ -20,6 +24,9 @@ import com.walmart.gai.util.Constants;
 
 @Service
 public class GlobalFilter {
+	
+	@Value("${spring.data.solr.pwd}")
+	private String solrKey;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalFilter.class);
 	
@@ -68,5 +75,17 @@ public class GlobalFilter {
 			LOGGER.info("No valid LDAP AD groups associated with the given Process id");
 			throw new BadRequestException(new FieldError(Constants.PROCESSID,ErrorCodeEnum.GGA_PROCESSID_EXCEP.getCode(),ErrorCodeEnum.GGA_PROCESSID_EXCEP.getDescription()));
 		}
+	}
+	
+	public String getPropValues(String key) throws IOException {
+		Properties prop = new Properties();
+		String value = "";
+		try(FileInputStream fis = new FileInputStream(solrKey)) {
+			prop.load(fis);
+			value = prop.getProperty(key);
+		}catch (FileNotFoundException e) {
+			LOGGER.warn(e.getMessage());;
+		}
+		return value;
 	}
 }
