@@ -84,7 +84,11 @@ public class GlobalFilter {
 			prop.load(fis);
 			value = prop.getProperty(key);
 		}catch (FileNotFoundException e) {
-			LOGGER.warn(e.getMessage());;
+			LOGGER.warn(e.getMessage());
+			try(FileInputStream fis = new FileInputStream("secrets/secrets.properties")) {
+				prop.load(fis);
+				value = prop.getProperty(key);
+			}
 		}
 		return value;
 	}
