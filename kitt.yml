@@ -43,7 +43,7 @@ deploy:
         cpu: 800m
         memory: 1024Mi
       networking:
-        httpsEnabled: false
+        httpsEnabled: true
         httpEnabled: true 
   stages:
     - name: dev
