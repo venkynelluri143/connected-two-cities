@@ -31,11 +31,6 @@ deploy:
         path: "/GetAssociateIdentifier/actuator/health"
         port: 8080
         failureThreshold: 3
-      secrets:
-         file_refresh: true
-         files:
-         - destination: /secrets.properties
-           content: getassocservice-dev#secrets
       min:
         cpu: 100m
         memory: 256Mi
