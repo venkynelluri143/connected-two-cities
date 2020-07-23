@@ -7,7 +7,7 @@ notify:
 profiles:
   - springboot-web
 setup:
-  releaseRefs: ["GAI_SonarIntegration"]
+  releaseRefs: ["GAI_KITTIntegration"]
 # Needed to get container to start, depends on app  
 deploy:
   namespace: getassoc-service
