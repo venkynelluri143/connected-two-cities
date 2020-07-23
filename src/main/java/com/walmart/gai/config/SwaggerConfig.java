@@ -3,6 +3,7 @@ package com.walmart.gai.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,14 +17,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan("com.walmart")
 public class SwaggerConfig {
 
-	@Bean
+	/*@Bean
 	public Docket restfulApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("Get Associate Identifier Rest Service")  
 		          .select()                                  
 		          .apis(RequestHandlerSelectors.basePackage("com.walmart.gai.controller"))              
 		          .paths(PathSelectors.any())                          
 		          .build().apiInfo(apiInfo());  
-	}
+	}*/
+	
+	@Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public Docket apiDocumentation() {
+        return new Docket(DocumentationType.SWAGGER_2).pathMapping("/")
+                .select().paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.walmart.gai.controller"))
+                .build().apiInfo(apiInfo());
+
+    }
 	
 	private ApiInfo apiInfo() {
 		ApiInfo apiInfo = null;
