@@ -8,6 +8,8 @@ profiles:
   - springboot-web
 setup:
   releaseRefs: ["GAI_KITTIntegration"]
+  featureFlagMap:
+    enableIstioSidecar: true
 # Needed to get container to start, depends on app  
 deploy:
   namespace: getassoc-service
@@ -53,7 +55,7 @@ deploy:
                content: getassocservice-dev#secrets
           metadata:
              labels:
-               strati.appkey: GETASSOC123
+               strati.appkey: GTGA-ASSOCID-REST
                strati.env: Dev
              annotations:
                strati.passthroughUris: '[{"Path": "^/swagger-ui.html$"},{"Path": "^/webjars/.*$"},{"Path": "^/swagger-resources$"},{"Path": "^/swagger-resources/.*$"},{"Path": "^/v2/api.docs$"}]'
