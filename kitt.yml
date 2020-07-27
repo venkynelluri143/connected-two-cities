@@ -58,7 +58,7 @@ deploy:
                strati.appkey: GTGA-ASSOCID-REST
                strati.env: Dev
              annotations:
-               strati.passthroughUris: '[{"Path": "^/swagger-ui.html$"},{"Path": "^/webjars/.*$"},{"Path": "^/swagger-resources$"},{"Path": "^/swagger-resources/.*$"},{"Path": "^/v2/api.docs$"}]'
+               strati.passthroughUris: '[{"Path": "^/.*/swagger-ui.html$"},{"Path": "^/.*/webjars/.*$"},{"Path": "^/.*/swagger-resources$"},{"Path": "^/.*/swagger-resources/.*$"},{"Path": "^/.*/v2/api.docs$"}]'
       refs: [master,branch]
       target:
         - cluster_id: [scus-dev-a2]

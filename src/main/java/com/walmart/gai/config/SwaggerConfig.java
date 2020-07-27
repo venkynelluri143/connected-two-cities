@@ -1,32 +1,41 @@
 package com.walmart.gai.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@ComponentScan("com.walmart")
+@PropertySource("classpath:api-document.properties")
 public class SwaggerConfig {
 
-	/*@Bean
-	public Docket restfulApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("Get Associate Identifier Rest Service")  
-		          .select()                                  
-		          .apis(RequestHandlerSelectors.basePackage("com.walmart.gai.controller"))              
-		          .paths(PathSelectors.any())                          
-		          .build().apiInfo(apiInfo());  
-	}*/
-	
-	@Bean
+    @Value("#{'${api.title}'}")
+    private String apiTitle;
+    @Value("#{'${api.basePackage}'}")
+    private String apiBasePackage;
+    @Value("#{'${api.description}'}")
+    private String apiDescription;
+    @Value("#{'${api.version}'}")
+    private String apiVersion;
+    @Value("#{'${api.license}'}")
+    private String apiLicense;
+    @Value("#{'${api.contact.name}'}")
+    private String contactName;
+    @Value("#{'${api.contact.mailId}'}")
+    private String contactEmail;
+
+    @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
@@ -35,16 +44,16 @@ public class SwaggerConfig {
     public Docket apiDocumentation() {
         return new Docket(DocumentationType.SWAGGER_2).pathMapping("/")
                 .select().paths(PathSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.walmart.gai.controller"))
+                .apis(RequestHandlerSelectors.basePackage(apiBasePackage))
                 .build().apiInfo(apiInfo());
 
     }
-	
-	private ApiInfo apiInfo() {
-		ApiInfo apiInfo = null;
-		apiInfo = new ApiInfo("Get Associate Identifier","Get Associate Identifier Rest Service","1.0",
-				"Link","Core HR Services","License","Link");
-		return apiInfo;
-	}
-	
+
+    private ApiInfo apiInfo() {
+
+        return new ApiInfoBuilder().title(apiTitle).description(apiDescription)
+                .version(apiVersion).license(apiLicense)
+                .contact(new Contact(contactName, "N/A", contactEmail)).build();
+    }
+
 }
