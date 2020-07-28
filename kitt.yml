@@ -47,12 +47,16 @@ deploy:
       helm:
         values:
           env:
-            JAVA_OPTS: "-Dspring.profiles.active=dev"
+            JAVA_OPTS: "-Dspring.profiles.active=dev -Dssl.keyStoreFileName=/etc/secrets/certificate_dev.p12 -Dssl.keyStorePassword =ecRemot12 -Dssl.keyStoreType =PKCS12 -Dssl.truststore.pwd =changeit -Dssl.trustStoreFileName =/etc/secrets/truststore_dev.jks -Dssl.trustStoreType =jks"
           secrets:
              file_refresh: true
              files:
              - destination: /secrets.properties
                content: getassocservice-dev#secrets
+             - destination: /certificate_dev.p12
+               content: getassocservice-dev#certificate_dev
+             - destination: /truststore_dev.p12
+               content: getassocservice-dev#truststore_dev
           metadata:
              labels:
                strati.appkey: GTGA-ASSOCID-REST

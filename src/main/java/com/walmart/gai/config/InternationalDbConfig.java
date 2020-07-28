@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -31,11 +32,36 @@ import com.walmart.gai.util.Constants;
 		    basePackages = {"com.walmart.gai.dao.repositoryinternational"})
 public class InternationalDbConfig {
 	
+	private static final String SSL_KEY_STORE_PASDD = "sslKeyStorePassword";
+	private static final String SSL_KEY_STORE_TYPE = "sslKeyStoreType";
+	private static final String SSL_KEY_STORE_LOCATION = "sslKeyStoreLocation";
+	private static final String SSL_TRUST_STORE_LOCATION = "sslTrustStoreLocation";
+	private static final String SSL_TRUST_STORE_TYPE = "sslTrustStoreType";
+	private static final String SSL_TRUST_STORE_PASDD = "sslTrustStorePassword";
+	
 	@Value("${spring.globaldatasource.url}")
 	private String dbUrl;
 
 	@Value("${spring.datasource.driverClassName}")
 	private String dbDriver;
+	
+	@Value("#{'${ssl.trustStoreFileName}'}")
+	private String trustStore;
+
+	@Value("#{'${ssl.truststore.pwd}'}")
+	private String trustStorePwd;
+
+	@Value("#{'${ssl.trustStoreType}'}")
+	private String trustStoreType;
+	
+	@Value("#{'${ssl.keyStoreFileName}'}")
+	private String keyStore;
+
+	@Value("#{'${ssl.keyStorePassword}'}")
+	private String keyStorePwd;
+
+	@Value("#{'${ssl.keyStoreType}'}")
+	private String keyStoreType;
 	
 	@Value("${spring.hibernate.dialect}")
 	private String hibernateDialect;
@@ -68,12 +94,24 @@ public class InternationalDbConfig {
 	
 	@Bean(name = "secondaryDataSource")
 	public DataSource secondaryDataSource() throws IOException{
-		return DataSourceBuilder.create()
+		
+		Properties properties= new Properties();
+		properties.setProperty(SSL_TRUST_STORE_LOCATION,  trustStore);
+		properties.setProperty(SSL_TRUST_STORE_TYPE, trustStoreType);
+		properties.setProperty(SSL_TRUST_STORE_PASDD, trustStorePwd);
+		properties.setProperty(SSL_KEY_STORE_LOCATION, keyStore);
+		properties.setProperty(SSL_KEY_STORE_TYPE, keyStoreType);
+		properties.setProperty(SSL_KEY_STORE_PASDD,keyStorePwd);	
+		DriverManagerDataSource dataSource = new DriverManagerDataSource(dbUrl, properties);
+		dataSource.setDriverClassName(dbDriver);
+		return dataSource;
+		
+		/*return DataSourceBuilder.create()
 				.url(dbUrl) //- ECGBUASC 
 				.driverClassName(dbDriver)
 				.username(globalFilter.getPropValues(Constants.USERNAME))
 				.password(globalFilter.getPropValues(Constants.USERCRED))
-				.build();
+				.build();*/
 	}	
 	
 	@Bean(name = "gaiInternationalTwoTransactionManager")
