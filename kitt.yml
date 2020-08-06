@@ -55,8 +55,10 @@ deploy:
                content: getassocservice-dev#secrets
              - destination: /certificate_dev.p12
                content: getassocservice-dev#certificate_dev
-             - destination: /truststore_dev.p12
+               base64decode: true 
+             - destination: /truststore_dev.jks
                content: getassocservice-dev#truststore_dev
+               base64decode: true 
           metadata:
              labels:
                strati.appkey: GTGA-ASSOCID-REST

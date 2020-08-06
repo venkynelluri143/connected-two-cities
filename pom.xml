@@ -4,7 +4,7 @@
   <groupId>com.walmart.gai</groupId>
   <artifactId>GetAssociateIdentifier</artifactId>
   <packaging>jar</packaging>
-  <version>1.3.3-SNAPSHOT</version>
+  <version>1.3.4-SNAPSHOT</version>
   <name>GetAssociateIdentifier</name>
   <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>ibm.db2</groupId>
 			<artifactId>db2jcc4</artifactId>
-			<version>1.6.0</version>
+			<version>4.23.42</version>
 		</dependency>
 		<dependency>
 			<groupId>ibm.db2</groupId>
