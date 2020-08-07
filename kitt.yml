@@ -58,7 +58,7 @@ deploy:
                base64decode: true 
              - destination: /truststore_dev.jks
                content: getassocservice-dev#truststore_dev
-               base64decode: true 
+               base64decode: true
           metadata:
              labels:
                strati.appkey: GTGA-ASSOCID-REST
