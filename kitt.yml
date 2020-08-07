@@ -14,7 +14,7 @@ setup:
 deploy:
   namespace: getassoc-service
   releaseType:
-   deployTimeout: 1200
+   deployTimeout: 1000
   helm:
     values:
       livenessProbe:
