@@ -47,7 +47,7 @@ deploy:
       helm:
         values:
           env:
-            JAVA_OPTS: "-Dspring.profiles.active=dev -Dssl.keyStoreFileName=/etc/secrets/certificate_dev.p12 -Dssl.keyStorePassword=ecRemot12 -Dssl.keyStoreType=PKCS12 -Dssl.truststore.pwd=changeit -Dssl.trustStoreFileName=/etc/secrets/truststore_dev.jks -Dssl.trustStoreType=jks"
+            JAVA_OPTS: "-Dspring.profiles.active=dev -Dssl.keyStoreFileName=/etc/secrets/certificate_dev.p12 -Dssl.keyStorePassword=ecRemot12 -Dssl.keyStoreType=PKCS12"
           secrets:
              file_refresh: true
              files:
