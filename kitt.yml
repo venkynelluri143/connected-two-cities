@@ -7,7 +7,7 @@ notify:
 profiles:
   - springboot-web
 setup:
-  releaseRefs: ["GAI_KITTIntegration"]
+  releaseRefs: ["featurebranch","GAI_KITTIntegration"]
   featureFlagMap:
     enableIstioSidecar: true
 # Needed to get container to start, depends on app  
@@ -55,7 +55,7 @@ deploy:
                content: getassocservice-dev#secrets
              - destination: /certificate_dev.p12
                content: getassocservice-dev#certificate_dev
-               base64decode: true 
+               base64decode: true
              - destination: /truststore_dev.jks
                content: getassocservice-dev#truststore_dev
                base64decode: true
