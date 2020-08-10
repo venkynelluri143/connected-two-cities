@@ -49,20 +49,20 @@ public class LocalDbConfig {
 	@Value("#{'${ssl.trustStoreFileName}'}")
 	private String trustStore;
 
-	@Value("#{'${ssl.truststore.pwd}'}")
+/*	@Value("#{'${ssl.truststore.pwd}'}")
 	private String trustStorePwd;
 
 	@Value("#{'${ssl.trustStoreType}'}")
-	private String trustStoreType;
+	private String trustStoreType;*/
 	
 	@Value("#{'${ssl.keyStoreFileName}'}")
 	private String keyStore;
 
-	@Value("#{'${ssl.keyStorePassword}'}")
+	/*@Value("#{'${ssl.keyStorePassword}'}")
 	private String keyStorePwd;
 
 	@Value("#{'${ssl.keyStoreType}'}")
-	private String keyStoreType;
+	private String keyStoreType;*/
 	
 	@Value("${spring.hibernate.dialect}")
 	private String hibernateDialect;
@@ -95,15 +95,15 @@ public class LocalDbConfig {
 	
 	@Primary
 	@Bean(name = "primaryDataSource")
-	public DataSource dataSource(){
+	public DataSource dataSource() throws IOException{
 		
 		Properties properties= new Properties();
 		properties.setProperty(SSL_TRUST_STORE_LOCATION,  trustStore);
-		properties.setProperty(SSL_TRUST_STORE_TYPE, trustStoreType);
-		properties.setProperty(SSL_TRUST_STORE_PASDD, trustStorePwd);
+		properties.setProperty(SSL_TRUST_STORE_TYPE, globalFilter.getPropValues(Constants.TRUSTSTORETYPE));
+		properties.setProperty(SSL_TRUST_STORE_PASDD, globalFilter.getPropValues(Constants.TRUSTSTOREPWD));
 		properties.setProperty(SSL_KEY_STORE_LOCATION, keyStore);
-		properties.setProperty(SSL_KEY_STORE_TYPE, keyStoreType);
-		properties.setProperty(SSL_KEY_STORE_PASDD,keyStorePwd);	
+		properties.setProperty(SSL_KEY_STORE_TYPE, globalFilter.getPropValues(Constants.KEYSTORETYPE));
+		properties.setProperty(SSL_KEY_STORE_PASDD,globalFilter.getPropValues(Constants.KEYSTOREPWD));	
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(dbUrl, properties);
 		dataSource.setDriverClassName(dbDriver);
 		return dataSource;
