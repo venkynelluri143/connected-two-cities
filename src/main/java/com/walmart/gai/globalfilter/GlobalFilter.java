@@ -25,8 +25,8 @@ import com.walmart.gai.util.Constants;
 @Service
 public class GlobalFilter {
 	
-	@Value("${spring.data.solr.pwd}")
-	private String solrKey;
+	@Value("${spring.data.base.properties}")
+	private String keyProperties;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalFilter.class);
 	
@@ -80,7 +80,7 @@ public class GlobalFilter {
 	public String getPropValues(String key) throws IOException {
 		Properties prop = new Properties();
 		String value = "";
-		try(FileInputStream fis = new FileInputStream(solrKey)) {
+		try(FileInputStream fis = new FileInputStream(keyProperties)) {
 			prop.load(fis);
 			value = prop.getProperty(key);
 		}catch (FileNotFoundException e) {

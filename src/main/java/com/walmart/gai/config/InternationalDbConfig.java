@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -47,21 +46,9 @@ public class InternationalDbConfig {
 	
 	@Value("#{'${ssl.trustStoreFileName}'}")
 	private String trustStore;
-
-	/*@Value("#{'${ssl.truststore.pwd}'}")
-	private String trustStorePwd;
-
-	@Value("#{'${ssl.trustStoreType}'}")
-	private String trustStoreType;*/
 	
 	@Value("#{'${ssl.keyStoreFileName}'}")
 	private String keyStore;
-
-	/*@Value("#{'${ssl.keyStorePassword}'}")
-	private String keyStorePwd;
-
-	@Value("#{'${ssl.keyStoreType}'}")
-	private String keyStoreType;*/
 	
 	@Value("${spring.hibernate.dialect}")
 	private String hibernateDialect;
@@ -98,20 +85,14 @@ public class InternationalDbConfig {
 		Properties properties= new Properties();
 		properties.setProperty(SSL_TRUST_STORE_LOCATION,  trustStore);
 		properties.setProperty(SSL_TRUST_STORE_TYPE, globalFilter.getPropValues(Constants.TRUSTSTORETYPE));
-		properties.setProperty(SSL_TRUST_STORE_PASDD, globalFilter.getPropValues(Constants.TRUSTSTOREPWD));
+		properties.setProperty(SSL_TRUST_STORE_PASDD, globalFilter.getPropValues(Constants.TRUSTSTORECRED));
 		properties.setProperty(SSL_KEY_STORE_LOCATION, keyStore);
 		properties.setProperty(SSL_KEY_STORE_TYPE, globalFilter.getPropValues(Constants.KEYSTORETYPE));
-		properties.setProperty(SSL_KEY_STORE_PASDD,globalFilter.getPropValues(Constants.KEYSTOREPWD));	
+		properties.setProperty(SSL_KEY_STORE_PASDD,globalFilter.getPropValues(Constants.KEYSTORECRED));	
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(dbUrl, properties);
 		dataSource.setDriverClassName(dbDriver);
 		return dataSource;
 		
-		/*return DataSourceBuilder.create()
-				.url(dbUrl) //- ECGBUASC 
-				.driverClassName(dbDriver)
-				.username(globalFilter.getPropValues(Constants.USERNAME))
-				.password(globalFilter.getPropValues(Constants.USERCRED))
-				.build();*/
 	}	
 	
 	@Bean(name = "gaiInternationalTwoTransactionManager")

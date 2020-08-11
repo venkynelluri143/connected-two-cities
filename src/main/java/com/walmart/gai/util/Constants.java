@@ -54,9 +54,9 @@ public class Constants {
 	public static final String SVCUSERCREDINCO = "svcIncPassword";
 	
 	public static final String TRUSTSTORETYPE = "sslTrustStoreType";
-	public static final String TRUSTSTOREPWD = "sslTruststorePwd";
+	public static final String TRUSTSTORECRED = "sslTruststorePwd";
 	public static final String KEYSTORETYPE = "sslKeyStoreType";
-	public static final String KEYSTOREPWD = "sslKeyStorePassword";
+	public static final String KEYSTORECRED = "sslKeyStorePassword";
 	
 	public static final String AUTHORIZATION = "Authorization";
 	public static final String CONTENTTYPE = "application/json";
