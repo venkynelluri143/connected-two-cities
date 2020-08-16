@@ -1,15 +1,29 @@
 package com.walmart.gai.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.io.Files;
+import com.walmart.gai.dao.ApiConsumerKeys;
 import com.walmart.gai.dao.WinAssociate;
 import com.walmart.gai.dao.repositoryinternational.WinAssociateRepositoryInternational;
+import com.walmart.gai.dao.repositorylocal.ApiConsumerKeysRepository;
 import com.walmart.gai.dao.repositorylocal.WinAssociateRepository;
 import com.walmart.gai.enumerations.ErrorCodeEnum;
 import com.walmart.gai.exceptions.DataNotFoundException;
@@ -18,6 +32,7 @@ import com.walmart.gai.model.AssocIdentifierResponse;
 import com.walmart.gai.model.Associd;
 import com.walmart.gai.model.Associds;
 import com.walmart.gai.util.Constants;
+import com.walmart.gbs.corehr.CryptoUtil;
 
 @Service
 public class AssocIdentifierService {
@@ -28,6 +43,9 @@ public class AssocIdentifierService {
 	
 	@Autowired
 	private WinAssociateRepositoryInternational winAssociateRepositoryInternational;
+	
+	@Autowired
+	private ApiConsumerKeysRepository apiConsumerKeysRepository;
 	
 	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
 		Boolean isGlobal = true;
@@ -111,5 +129,19 @@ public class AssocIdentifierService {
 			winAssociate = winAssociateRepositoryInternational.findByNationalIdAndStrCountryCode(id, countryCode);
 		
 		return winAssociate; 
+	}
+	
+	private String encryptId(String nationalId, String processId) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException{
+		LOGGER.info("Process Id :{}" , processId);
+		ApiConsumerKeys keys = apiConsumerKeysRepository.findByProcessId(processId);
+		Path root = Paths.get(".").normalize().toAbsolutePath();
+		Path filePath = Paths.get(root.toString(),"src", "main", "webapp", "consumerkey.txt");
+		File file = filePath.toFile();
+		file.createNewFile();
+		Files.write(keys.getPublicKey().getBytes(),file);
+		CryptoUtil crypto = new CryptoUtil();
+		String encryptId =  crypto.encrypt(nationalId.getBytes(), filePath.toString() , Constants.PEMFORMAT);
+		new FileOutputStream(filePath.toString()).close();
+		return encryptId;
 	}
 }
