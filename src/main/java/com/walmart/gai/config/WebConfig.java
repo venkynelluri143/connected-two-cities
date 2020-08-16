@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.walmart.gai.security.ADUserDetailsContextMapper;
 import com.walmart.gai.security.SecurityFilter;
 import com.walmart.gai.validator.AssociateIdentifierValidator;
+import com.walmart.gbs.corehr.CryptoUtil;
 
 @Configuration
 @EnableTransactionManagement
@@ -41,6 +42,10 @@ public class WebConfig {
     @Bean 
     public SecurityFilter securityFilter(){
     	return new SecurityFilter();
+    }
+    
+    @Bean CryptoUtil cryptoUtil() {
+    	return new CryptoUtil();
     }
 	
 }

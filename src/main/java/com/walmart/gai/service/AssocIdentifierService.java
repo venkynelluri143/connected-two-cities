@@ -1,10 +1,6 @@
 package com.walmart.gai.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -19,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.io.Files;
 import com.walmart.gai.dao.ApiConsumerKeys;
 import com.walmart.gai.dao.WinAssociate;
 import com.walmart.gai.dao.repositoryinternational.WinAssociateRepositoryInternational;
@@ -47,7 +42,10 @@ public class AssocIdentifierService {
 	@Autowired
 	private ApiConsumerKeysRepository apiConsumerKeysRepository;
 	
-	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel){
+	@Autowired
+	private CryptoUtil cryptoUtil;
+	
+	public AssocIdentifierResponse assocIdentifierService(AssocIdentifierRequest assocIdentifierRequest, String groupLevel, String processId) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException{
 		Boolean isGlobal = true;
 		String id = assocIdentifierRequest.getAssocIdentifier().getAssociateId().trim(); //value 
 		String idType = assocIdentifierRequest.getAssocIdentifier().getIdType().trim(); //SSN , WIN 
@@ -67,14 +65,14 @@ public class AssocIdentifierService {
 		
 		LOGGER.info("Win Associate :" +winAssociate);
 		if (winAssociate != null) {
-			return assocIdentifierResponse(winAssociate, countryCode, groupLevel);
+			return assocIdentifierResponse(winAssociate, countryCode, groupLevel, processId);
 		}else {
 			LOGGER.info("No Data Found for given ID :"+id+" and ID type :"+idType);
 			throw new DataNotFoundException(ErrorCodeEnum.GAI_NOT_FOUND.getCode(),ErrorCodeEnum.GAI_NOT_FOUND.getDescription()+id+" ,"+idType+" ,"+countryCode);
 		}
 	}
 	
-	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode, String groupLevel){
+	public AssocIdentifierResponse assocIdentifierResponse(WinAssociate winAssociate, String countryCode, String groupLevel, String processId) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException{
 		List<String> confedLevels = new ArrayList<>();
 		confedLevels.add(Constants.CONFED3);
 		confedLevels.add(Constants.CONFED2);
@@ -98,7 +96,7 @@ public class AssocIdentifierService {
 		
 		if(!confedLevels.contains(groupLevel) && !publicLevels.contains(groupLevel)){
 			Associd assocSsn = new Associd(); 
-			assocSsn.setAssocidentifierValue(winAssociate.getNationalId() != null ? winAssociate.getNationalId().trim() : "");
+			assocSsn.setAssocidentifierValue(winAssociate.getNationalId() != null ? encryptId(winAssociate.getNationalId().trim(), processId) : "");
 			assocSsn.setAssocidtype(Constants.NATIONALID);
 			associdList.add(assocSsn);
 		}
@@ -134,14 +132,13 @@ public class AssocIdentifierService {
 	private String encryptId(String nationalId, String processId) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException{
 		LOGGER.info("Process Id :{}" , processId);
 		ApiConsumerKeys keys = apiConsumerKeysRepository.findByProcessId(processId);
-		Path root = Paths.get(".").normalize().toAbsolutePath();
-		Path filePath = Paths.get(root.toString(),"src", "main", "webapp", "consumerkey.txt");
-		File file = filePath.toFile();
-		file.createNewFile();
-		Files.write(keys.getPublicKey().getBytes(),file);
-		CryptoUtil crypto = new CryptoUtil();
-		String encryptId =  crypto.encrypt(nationalId.getBytes(), filePath.toString() , Constants.PEMFORMAT);
-		new FileOutputStream(filePath.toString()).close();
+		String encryptId = null;
+		try {
+			encryptId = cryptoUtil.encrypt(nationalId.getBytes(), keys.getPublicKey().getBytes(), Constants.PEMFORMAT);
+			
+		} catch (IOException e) {
+			LOGGER.info("Exception in Crypto Encryption :{},{}", e, e.getMessage());
+		} 
 		return encryptId;
 	}
 }

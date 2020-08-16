@@ -1,5 +1,13 @@
 package com.walmart.gai.controller;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +44,7 @@ public class AssocIdentifierController {
 	private GlobalFilter globalFilter;
 	
 	@RequestMapping(value = "/associate", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
-	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors) throws BindException {
+	public AssocIdentifierResponse getAssocIdentifier(@RequestBody AssocIdentifierRequest assocIdentifierRequest,BindingResult errors) throws BindException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 		
 		LOGGER.info("Input Request :" + assocIdentifierRequest);
 		// validate Input request - AssocIdentifierRequest
@@ -45,11 +53,12 @@ public class AssocIdentifierController {
 			throw new BindException(errors);
 		}
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		LOGGER.info("User :"+authentication.getName());
 		
 		String groupLevel = globalFilter.getMemberGroup(authentication);
 		LOGGER.info("Group Level :"+groupLevel);
 		
-		return assocIdentifierService.assocIdentifierService(assocIdentifierRequest, groupLevel); 		
+		return assocIdentifierService.assocIdentifierService(assocIdentifierRequest, groupLevel, authentication.getName()); 		
 	}
 	
 	@RequestMapping(value="/healthCheck", method = RequestMethod.GET, produces="application/json") 
