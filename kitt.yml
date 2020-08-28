@@ -34,14 +34,20 @@ deploy:
         port: 8080
         failureThreshold: 3
       min:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 583m
+        memory: 678Mi
       max:
-        cpu: 800m
-        memory: 1024Mi
+        cpu: 1024m
+        memory: 738Mi
+      scaling:
+        enabled: "true"
+        cpuPercent: 60
+        min: 5
+        max: 6
       networking:
         httpsEnabled: true
         httpEnabled: true 
+        httpsRedirect: true
   stages:
     - name: dev
       helm:
