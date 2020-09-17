@@ -142,6 +142,6 @@ deploy:
                strati.passthroughUris: '[{"Path": "^/.*/swagger-ui.html$"},{"Path": "^/.*/webjars/.*$"},{"Path": "^/.*/swagger-resources$"},{"Path": "^/.*/swagger-resources/.*$"},{"Path": "^/.*/v2/api.docs$"}]'
       refs: [master,branch]
       changeRecord:
-        create: false
+        create: true
       target:
         - cluster_id: [scus-prod-a18,wus-prod-a15]
