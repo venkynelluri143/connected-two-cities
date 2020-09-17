@@ -15,6 +15,21 @@ deploy:
   namespace: getassoc-service
   releaseType:
    deployTimeout: 1000
+  changeRecord:
+    create: true
+    group: "OPS - PS - Core HR"
+    managerGroup: "Change Managers - US"
+    affectedGEOs: ["US"]
+    notifyChannels: ["corehr-wcnp-alerts"]
+  gslb:
+    httpPortEnabled: false 
+    lbRoutings:
+      dev:
+        cnames: [getassocidentifier-service.dev.walmart.net]
+      stage:
+        cnames: [getassocidentifier-service.stage.walmart.net]
+      prod:
+        cnames: [getassocidentifier-service.prod.walmart.net] 
   helm:
     values:
       livenessProbe:
@@ -72,6 +87,8 @@ deploy:
              annotations:
                strati.passthroughUris: '[{"Path": "^/.*/swagger-ui.html$"},{"Path": "^/.*/webjars/.*$"},{"Path": "^/.*/swagger-resources$"},{"Path": "^/.*/swagger-resources/.*$"},{"Path": "^/.*/v2/api.docs$"}]'
       refs: [master,branch]
+      changeRecord:
+        create: false
       target:
         - cluster_id: [scus-dev-a3]
     - name: stage
@@ -97,5 +114,34 @@ deploy:
              annotations:
                strati.passthroughUris: '[{"Path": "^/.*/swagger-ui.html$"},{"Path": "^/.*/webjars/.*$"},{"Path": "^/.*/swagger-resources$"},{"Path": "^/.*/swagger-resources/.*$"},{"Path": "^/.*/v2/api.docs$"}]'
       refs: [master,branch]
+      changeRecord:
+        create: false
       target:
         - cluster_id: [scus-stage-a3]
+    - name: prod
+      helm:
+        values:
+          env:
+            JAVA_OPTS: "-Dspring.profiles.active=prod -Dssl.keyStoreFileName=/etc/secrets/certificate_dev.p12 -Dssl.trustStoreFileName=/etc/secrets/truststore_dev.jks"
+          secrets:
+             file_refresh: true
+             files:
+             - destination: /secrets.properties
+               content: getassocservice-dev#secrets
+             - destination: /certificate_dev.p12
+               content: getassocservice-dev#certificate_dev
+               base64decode: true
+             - destination: /truststore_dev.jks
+               content: getassocservice-dev#truststore_dev
+               base64decode: true
+          metadata:
+             labels:
+               strati.appkey: GTGA-ASSOCID-REST
+               strati.env: prod
+             annotations:
+               strati.passthroughUris: '[{"Path": "^/.*/swagger-ui.html$"},{"Path": "^/.*/webjars/.*$"},{"Path": "^/.*/swagger-resources$"},{"Path": "^/.*/swagger-resources/.*$"},{"Path": "^/.*/v2/api.docs$"}]'
+      refs: [master,branch]
+      changeRecord:
+        create: false
+      target:
+        - cluster_id: [scus-prod-a18,wus-prod-a15]
