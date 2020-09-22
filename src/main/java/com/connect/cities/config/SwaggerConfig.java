@@ -1,4 +1,4 @@
-package com.walmart.gai.config;
+package com.connect.cities.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +32,6 @@ public class SwaggerConfig {
     private String apiLicense;
     @Value("#{'${api.contact.name}'}")
     private String contactName;
-    @Value("#{'${api.contact.mailId}'}")
-    private String contactEmail;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -53,7 +51,6 @@ public class SwaggerConfig {
 
         return new ApiInfoBuilder().title(apiTitle).description(apiDescription)
                 .version(apiVersion).license(apiLicense)
-                .contact(new Contact(contactName, "N/A", contactEmail)).build();
+                .contact(new Contact(contactName, "N/A", "N/A")).build();
     }
-
 }
